@@ -5,10 +5,14 @@ import '../providers.dart';
 import '../features/auth/presentation/login_page.dart';
 import '../features/driver_trips/presentation/pages/my_trips_page.dart';
 import '../features/driver_trips/presentation/pages/trip_detail_page.dart';
+import '../features/profile/presentation/pages/profile_page.dart';
+import '../features/exceptions/presentation/pages/my_exceptions_page.dart';
 
 const String kLoginRoute = '/login';
 const String kMyTripsRoute = '/my-trips';
 const String kTripDetailRoute = '/trips/:tripId';
+const String kProfileRoute = '/profile';
+const String kMyExceptionsRoute = '/exceptions';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authSession = ref.watch(authNotifierProvider);
@@ -48,6 +52,14 @@ final routerProvider = Provider<GoRouter>((ref) {
           final tripId = int.parse(state.pathParameters['tripId']!);
           return TripDetailPage(tripId: tripId);
         },
+      ),
+      GoRoute(
+        path: kProfileRoute,
+        builder: (context, state) => const ProfilePage(),
+      ),
+      GoRoute(
+        path: kMyExceptionsRoute,
+        builder: (context, state) => const MyExceptionsPage(),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

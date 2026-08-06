@@ -7,6 +7,7 @@ import '../state/trip_state.dart';
 import '../widgets/shared_widgets.dart';
 import '../../data/models/trip_stop_model.dart';
 import '../../../delivery_rejection/presentation/rejection_bottom_sheet.dart';
+import 'trip_map_page.dart';
 
 class TripDetailPage extends ConsumerStatefulWidget {
   final int tripId;
@@ -87,6 +88,17 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
           state.trip?.fixedRouteCode ?? 'Chi tiết chuyến',
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.map_outlined),
+            tooltip: 'Bản đồ tuyến đường',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => TripMapPage(tripId: widget.tripId),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => notifier.loadTrip(),
@@ -239,33 +251,68 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
               border:
                   Border.all(color: AppTheme.statusCompleted.withOpacity(0.4)),
             ),
-            child: const Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.check_circle,
-                    color: AppTheme.statusCompleted, size: 28),
-                SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Chuyến đã hoàn thành',
-                        style: TextStyle(
-                          color: AppTheme.statusCompleted,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                Row(
+                  children: [
+                    const Icon(Icons.check_circle,
+                        color: AppTheme.statusCompleted, size: 28),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Chuyến đã hoàn thành',
+                            style: TextStyle(
+                              color: AppTheme.statusCompleted,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            trip.returnedToWarehouseAt != null
+                                ? 'Đã xác nhận xe về kho lúc ${formatDateTime(trip.returnedToWarehouseAt)}'
+                                : 'Tất cả điểm giao đã được xử lý. Xe vẫn đang trong trạng thái trở về kho.',
+                            style: const TextStyle(
+                              color: AppTheme.textSecondary,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Tất cả điểm giao đã được xử lý.',
-                        style: TextStyle(
-                          color: AppTheme.textSecondary,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+                if (trip.returnedToWarehouseAt == null &&
+                    trip.executionId != null) ...[
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: state.isReturningToWarehouse
+                          ? null
+                          : () => _returnToWarehouse(context, notifier),
+                      icon: state.isReturningToWarehouse
+                          ? const SizedBox(
+                              height: 18,
+                              width: 18,
+                              child: CircularProgressIndicator(
+                                  color: Colors.white, strokeWidth: 2))
+                          : const Icon(Icons.local_shipping),
+                      label: const Text('Xác nhận xe đã về kho',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange[800],
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
@@ -327,6 +374,32 @@ class _TripDetailPageState extends ConsumerState<TripDetailPage> {
     } catch (e) {
       if (context.mounted) {
         showSnackBar(context, 'Không thể bắt đầu chuyến. Thử lại.',
+            isError: true);
+      }
+    }
+  }
+
+  Future<void> _returnToWarehouse(
+      BuildContext context, TripDetailNotifier notifier) async {
+    final confirmed = await showConfirmDialog(
+      context,
+      title: 'Xác nhận xe đã về kho',
+      content: 'Bạn có chắc chắn xe đã về đến kho?\n\n'
+          'Sau khi xác nhận, xe sẽ được chuyển sang trạng thái sẵn sàng để phân cho chuyến mới.',
+      confirmLabel: 'Xác nhận',
+      confirmColor: Colors.orange[800],
+    );
+    if (!confirmed) return;
+    try {
+      await notifier.returnToWarehouse();
+      if (context.mounted) {
+        showSnackBar(context, 'Đã xác nhận xe về tới kho thành công!');
+      }
+    } on ApiBusinessException catch (e) {
+      if (context.mounted) showSnackBar(context, e.userMessage, isError: true);
+    } catch (e) {
+      if (context.mounted) {
+        showSnackBar(context, 'Không thể xác nhận xe về kho. Thử lại.',
             isError: true);
       }
     }

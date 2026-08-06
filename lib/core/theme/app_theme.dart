@@ -42,6 +42,9 @@ class AppTheme {
         backgroundColor: primary,
         foregroundColor: Colors.white,
         elevation: 0,
+        scrolledUnderElevation: 3,
+        shadowColor: Colors.black26,
+        surfaceTintColor: Colors.transparent,
         centerTitle: false,
         titleTextStyle: TextStyle(
           color: Colors.white,
@@ -53,9 +56,12 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: primary,
           foregroundColor: Colors.white,
+          disabledBackgroundColor: primary.withOpacity(0.4),
           minimumSize: const Size(double.infinity, 52),
+          elevation: 1,
+          shadowColor: primary.withOpacity(0.35),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(14),
           ),
           textStyle: const TextStyle(
             fontSize: 16,
@@ -69,7 +75,7 @@ class AppTheme {
           minimumSize: const Size(double.infinity, 52),
           side: const BorderSide(color: primary, width: 1.5),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(14),
           ),
           textStyle: const TextStyle(
             fontSize: 16,
@@ -79,12 +85,17 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         color: surface,
-        elevation: 2,
-        shadowColor: Colors.black12,
+        elevation: 0,
+        shadowColor: Colors.black.withOpacity(0.06),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: surfaceVariant.withOpacity(0.8)),
         ),
         margin: EdgeInsets.zero,
+      ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -149,6 +160,21 @@ class AppTheme {
         return 'Chưa điều phối';
       default:
         return status;
+    }
+  }
+
+  static IconData tripStatusIcon(String status) {
+    switch (status.toUpperCase()) {
+      case 'DISPATCHED':
+        return Icons.schedule_rounded;
+      case 'IN_PROGRESS':
+        return Icons.local_shipping_rounded;
+      case 'COMPLETED':
+        return Icons.check_circle_rounded;
+      case 'VALIDATED':
+        return Icons.rule_folder_outlined;
+      default:
+        return Icons.hourglass_empty_rounded;
     }
   }
 

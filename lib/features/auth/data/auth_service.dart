@@ -8,7 +8,7 @@ class AuthService {
 
   const AuthService(this._dio, this._storage);
 
-  /// POST /api/auth/login
+  /// POST /api/v1/auth/login
   /// Returns roles list on success, throws ApiBusinessException on failure.
   Future<Map<String, dynamic>> login({
     required String username,
@@ -16,7 +16,7 @@ class AuthService {
   }) async {
     try {
       final response = await _dio.post(
-        '/api/auth/login',
+        '/api/v1/auth/login',
         data: {'username': username, 'password': password},
       );
       final body = response.data as Map<String, dynamic>;
@@ -52,13 +52,13 @@ class AuthService {
     }
   }
 
-  /// POST /api/auth/logout
+  /// POST /api/v1/auth/logout
   Future<void> logout() async {
     try {
       final refreshToken = await _storage.getRefreshToken();
       if (refreshToken != null && refreshToken.isNotEmpty) {
         await _dio
-            .post('/api/auth/logout', data: {'refreshToken': refreshToken});
+            .post('/api/v1/auth/logout', data: {'refreshToken': refreshToken});
       }
     } catch (_) {
       // Always clear local storage even if API call fails

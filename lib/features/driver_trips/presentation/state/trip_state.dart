@@ -5,6 +5,9 @@ import '../../../../providers.dart';
 import '../../data/models/action_results.dart';
 import '../../data/models/trip_model.dart';
 import '../../data/models/trip_stop_model.dart';
+import '../../data/models/driver_trip_model.dart';
+import '../../data/models/trip_outcome_model.dart';
+import '../../data/models/update_order_result_request.dart';
 import '../../data/repositories/trip_repository.dart';
 
 String _formatError(dynamic e) {
@@ -87,6 +90,57 @@ final myTripsProvider =
   return MyTripsNotifier(ref.watch(tripRepositoryProvider));
 });
 
+// ── Trip Calendar state (month dots for the date picker) ────────────────
+
+class TripCalendarState {
+  final bool isLoading;
+  final Map<String, bool> daysWithTrips; // "yyyy-MM-dd" -> allCompleted
+  final String? errorMessage;
+
+  const TripCalendarState({
+    this.isLoading = false,
+    this.daysWithTrips = const {},
+    this.errorMessage,
+  });
+
+  TripCalendarState copyWith({
+    bool? isLoading,
+    Map<String, bool>? daysWithTrips,
+    String? errorMessage,
+    bool clearError = false,
+  }) {
+    return TripCalendarState(
+      isLoading: isLoading ?? this.isLoading,
+      daysWithTrips: daysWithTrips ?? this.daysWithTrips,
+      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+    );
+  }
+}
+
+class TripCalendarNotifier extends StateNotifier<TripCalendarState> {
+  final TripRepository _repo;
+
+  TripCalendarNotifier(this._repo) : super(const TripCalendarState());
+
+  Future<void> loadMonth(String month) async {
+    state = state.copyWith(isLoading: true, clearError: true);
+    try {
+      final days = await _repo.getMyTripsCalendar(month);
+      state = state.copyWith(
+        isLoading: false,
+        daysWithTrips: {for (final d in days) d.date: d.allCompleted},
+      );
+    } catch (e) {
+      state = state.copyWith(isLoading: false, errorMessage: _formatError(e));
+    }
+  }
+}
+
+final tripCalendarProvider = StateNotifierProvider.autoDispose<
+    TripCalendarNotifier, TripCalendarState>((ref) {
+  return TripCalendarNotifier(ref.watch(tripRepositoryProvider));
+});
+
 // ── Trip detail state ───────────────────────────────────────────────────
 
 class TripDetailState {
@@ -99,6 +153,7 @@ class TripDetailState {
   final Set<int> arrivingStops; // tripStopIds currently submitting arrive
   final Set<int> completingStops;
   final Set<int> rejectingStops;
+  final bool isReturningToWarehouse;
 
   // After arrive result — to show time exception warning
   final ArriveStopResult? lastArriveResult;
@@ -111,6 +166,7 @@ class TripDetailState {
     this.arrivingStops = const {},
     this.completingStops = const {},
     this.rejectingStops = const {},
+    this.isReturningToWarehouse = false,
     this.lastArriveResult,
   });
 
@@ -123,6 +179,7 @@ class TripDetailState {
     Set<int>? arrivingStops,
     Set<int>? completingStops,
     Set<int>? rejectingStops,
+    bool? isReturningToWarehouse,
     ArriveStopResult? lastArriveResult,
     bool clearArriveResult = false,
   }) {
@@ -134,6 +191,8 @@ class TripDetailState {
       arrivingStops: arrivingStops ?? this.arrivingStops,
       completingStops: completingStops ?? this.completingStops,
       rejectingStops: rejectingStops ?? this.rejectingStops,
+      isReturningToWarehouse:
+          isReturningToWarehouse ?? this.isReturningToWarehouse,
       lastArriveResult: clearArriveResult
           ? null
           : (lastArriveResult ?? this.lastArriveResult),
@@ -143,9 +202,10 @@ class TripDetailState {
 
 class TripDetailNotifier extends StateNotifier<TripDetailState> {
   final TripRepository _repo;
+  final DriverTripRepository _driverRepo;
   final int _tripId;
 
-  TripDetailNotifier(this._repo, this._tripId)
+  TripDetailNotifier(this._repo, this._driverRepo, this._tripId)
       : super(const TripDetailState()) {
     loadTrip();
   }
@@ -163,6 +223,8 @@ class TripDetailNotifier extends StateNotifier<TripDetailState> {
         trip: TripModel(
           tripId: trip.tripId,
           tripDraftId: trip.tripDraftId,
+          executionId: trip.executionId,
+          returnedToWarehouseAt: trip.returnedToWarehouseAt,
           fixedRouteCode: trip.fixedRouteCode,
           deliveryDate: trip.deliveryDate,
           status: trip.status,
@@ -288,6 +350,26 @@ class TripDetailNotifier extends StateNotifier<TripDetailState> {
     }
   }
 
+  // ── Return to Warehouse ───────────────────────────────────────────────
+
+  Future<void> returnToWarehouse() async {
+    final trip = state.trip;
+    if (trip == null || trip.executionId == null) return;
+    state = state.copyWith(isReturningToWarehouse: true, clearError: true);
+    try {
+      await _driverRepo.returnToWarehouse(trip.executionId!);
+      // Reload from /api/v1/trips/{tripId} to pick up the fresh returnedToWarehouseAt
+      await loadTrip();
+      state = state.copyWith(isReturningToWarehouse: false);
+    } catch (e) {
+      state = state.copyWith(
+        isReturningToWarehouse: false,
+        errorMessage: _formatError(e),
+      );
+      rethrow;
+    }
+  }
+
   void clearError() => state = state.copyWith(clearError: true);
   void clearArriveResult() => state = state.copyWith(clearArriveResult: true);
 
@@ -304,6 +386,8 @@ class TripDetailNotifier extends StateNotifier<TripDetailState> {
       trip: TripModel(
         tripId: trip.tripId,
         tripDraftId: trip.tripDraftId,
+        executionId: trip.executionId,
+        returnedToWarehouseAt: trip.returnedToWarehouseAt,
         fixedRouteCode: trip.fixedRouteCode,
         deliveryDate: trip.deliveryDate,
         status: trip.status,
@@ -325,5 +409,190 @@ class TripDetailNotifier extends StateNotifier<TripDetailState> {
 
 final tripDetailProvider = StateNotifierProvider.autoDispose
     .family<TripDetailNotifier, TripDetailState, int>((ref, tripId) {
-  return TripDetailNotifier(ref.watch(tripRepositoryProvider), tripId);
+  return TripDetailNotifier(
+    ref.watch(tripRepositoryProvider),
+    ref.watch(driverTripRepositoryProvider),
+    tripId,
+  );
+});
+
+// ── NEW Active Trip state (FT-09 order-level execution) ────────────────────────
+
+class ActiveTripState {
+  final bool isLoading;
+  final DriverTripModel? trip;
+  final TripOutcomeModel? outcome;
+  final String? errorMessage;
+  final bool isStarting;
+  final bool isCompleting;
+  final bool isReturningToWarehouse;
+  final int? updatingOrderId;
+
+  const ActiveTripState({
+    this.isLoading = false,
+    this.trip,
+    this.outcome,
+    this.errorMessage,
+    this.isStarting = false,
+    this.isCompleting = false,
+    this.isReturningToWarehouse = false,
+    this.updatingOrderId,
+  });
+
+  ActiveTripState copyWith({
+    bool? isLoading,
+    DriverTripModel? trip,
+    bool clearTrip = false,
+    TripOutcomeModel? outcome,
+    bool clearOutcome = false,
+    String? errorMessage,
+    bool clearError = false,
+    bool? isStarting,
+    bool? isCompleting,
+    bool? isReturningToWarehouse,
+    int? updatingOrderId,
+    bool clearUpdatingOrderId = false,
+  }) {
+    return ActiveTripState(
+      isLoading: isLoading ?? this.isLoading,
+      trip: clearTrip ? null : (trip ?? this.trip),
+      outcome: clearOutcome ? null : (outcome ?? this.outcome),
+      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+      isStarting: isStarting ?? this.isStarting,
+      isCompleting: isCompleting ?? this.isCompleting,
+      isReturningToWarehouse:
+          isReturningToWarehouse ?? this.isReturningToWarehouse,
+      updatingOrderId: clearUpdatingOrderId
+          ? null
+          : (updatingOrderId ?? this.updatingOrderId),
+    );
+  }
+}
+
+class ActiveTripNotifier extends StateNotifier<ActiveTripState> {
+  final DriverTripRepository _repo;
+
+  ActiveTripNotifier(this._repo) : super(const ActiveTripState()) {
+    loadActiveTrip();
+  }
+
+  Future<void> loadActiveTrip() async {
+    state =
+        state.copyWith(isLoading: true, clearError: true, clearOutcome: true);
+    try {
+      final fetched = await _repo.getActiveTrip();
+      if (fetched != null) {
+        state = state.copyWith(isLoading: false, trip: fetched);
+        return;
+      }
+      // Backend's "active" endpoint only matches ASSIGNED/IN_PROGRESS executions,
+      // so a trip that was just completed but not yet confirmed back at the
+      // warehouse will never come back from getActiveTrip(). Ask the server
+      // directly instead of trusting local state, which is gone after an app
+      // restart or provider dispose (this used to strand drivers on "Bận").
+      final pending = await _repo.getPendingReturnTrips();
+      state = state.copyWith(
+        isLoading: false,
+        trip: pending.isNotEmpty ? pending.first : null,
+        clearTrip: pending.isEmpty,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: _formatError(e),
+      );
+    }
+  }
+
+  Future<void> startTrip() async {
+    final trip = state.trip;
+    if (trip == null) return;
+    state = state.copyWith(isStarting: true, clearError: true);
+    try {
+      final updated = await _repo.startExecution(trip.executionId);
+      state = state.copyWith(isStarting: false, trip: updated);
+    } catch (e) {
+      state = state.copyWith(
+        isStarting: false,
+        errorMessage: _formatError(e),
+      );
+      rethrow;
+    }
+  }
+
+  Future<void> updateOrderResult(
+      int orderId, UpdateOrderResultRequest req) async {
+    final trip = state.trip;
+    if (trip == null) return;
+    state = state.copyWith(updatingOrderId: orderId, clearError: true);
+    try {
+      final updated =
+          await _repo.updateOrderResult(trip.executionId, orderId, req);
+      state = state.copyWith(clearUpdatingOrderId: true, trip: updated);
+    } catch (e) {
+      state = state.copyWith(
+        clearUpdatingOrderId: true,
+        errorMessage: _formatError(e),
+      );
+      rethrow;
+    }
+  }
+
+  Future<void> completeTrip() async {
+    final trip = state.trip;
+    if (trip == null) return;
+    state = state.copyWith(isCompleting: true, clearError: true);
+    try {
+      final outcome = await _repo.completeExecution(trip.executionId);
+      // getActiveTrip() would return null here (backend excludes COMPLETED
+      // executions from the "active" query), so derive the post-complete trip
+      // state locally instead of trusting a refetch to bring it back.
+      final hasExceptions = outcome.failedCount > 0 || outcome.partialCount > 0;
+      final updatedTrip = trip.copyWith(
+        status: hasExceptions
+            ? ExecutionStatus.completedWithExceptions
+            : ExecutionStatus.completed,
+        completedOrdersCount: outcome.totalOrders,
+        pendingOrdersCount: 0,
+      );
+      state = state.copyWith(
+        isCompleting: false,
+        trip: updatedTrip,
+        outcome: outcome,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isCompleting: false,
+        errorMessage: _formatError(e),
+      );
+      rethrow;
+    }
+  }
+
+  Future<void> returnToWarehouse() async {
+    final trip = state.trip;
+    if (trip == null) return;
+    state = state.copyWith(isReturningToWarehouse: true, clearError: true);
+    try {
+      final updated = await _repo.returnToWarehouse(trip.executionId);
+      state = state.copyWith(
+        isReturningToWarehouse: false,
+        trip: updated,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isReturningToWarehouse: false,
+        errorMessage: _formatError(e),
+      );
+      rethrow;
+    }
+  }
+
+  void clearError() => state = state.copyWith(clearError: true);
+}
+
+final activeTripProvider =
+    StateNotifierProvider.autoDispose<ActiveTripNotifier, ActiveTripState>(
+        (ref) {
+  return ActiveTripNotifier(ref.watch(driverTripRepositoryProvider));
 });

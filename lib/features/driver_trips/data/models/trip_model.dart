@@ -4,6 +4,8 @@ import 'trip_stop_model.dart';
 class TripModel {
   final int tripId;
   final int? tripDraftId;
+  final int? executionId;
+  final String? returnedToWarehouseAt;
   final String? fixedRouteCode;
   final String? deliveryDate; // LocalDate serialized as "yyyy-MM-dd"
   final String status;
@@ -22,6 +24,8 @@ class TripModel {
   const TripModel({
     required this.tripId,
     this.tripDraftId,
+    this.executionId,
+    this.returnedToWarehouseAt,
     this.fixedRouteCode,
     this.deliveryDate,
     required this.status,
@@ -43,6 +47,8 @@ class TripModel {
     return TripModel(
       tripId: json['tripId'] as int,
       tripDraftId: json['tripDraftId'] as int?,
+      executionId: json['executionId'] as int?,
+      returnedToWarehouseAt: json['returnedToWarehouseAt'] as String?,
       fixedRouteCode: json['fixedRouteCode'] as String?,
       deliveryDate: json['deliveryDate'] as String?,
       status: json['status'] as String? ?? '',
@@ -99,5 +105,20 @@ class DriverInfoModel {
       DriverInfoModel(
         userId: json['userId'] as int?,
         fullName: json['fullName'] as String?,
+      );
+}
+
+/// Mirrors backend DriverTripCalendarDayResponse — one entry per day that has
+/// at least one trip assigned to the driver. Days with no trip are omitted.
+class TripCalendarDayModel {
+  final String date; // "yyyy-MM-dd"
+  final bool allCompleted;
+
+  const TripCalendarDayModel({required this.date, required this.allCompleted});
+
+  factory TripCalendarDayModel.fromJson(Map<String, dynamic> json) =>
+      TripCalendarDayModel(
+        date: json['date'] as String,
+        allCompleted: json['allCompleted'] as bool? ?? false,
       );
 }

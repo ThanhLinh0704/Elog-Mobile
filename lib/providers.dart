@@ -4,6 +4,7 @@ import '../core/network/dio_client.dart';
 import '../core/storage/secure_storage_service.dart';
 import '../features/auth/data/auth_service.dart';
 import '../features/driver_trips/data/repositories/trip_repository.dart';
+import '../features/exceptions/data/repositories/exception_repository.dart';
 
 // ── Infrastructure providers ──────────────────────────────────────────────
 
@@ -24,6 +25,14 @@ final authServiceProvider = Provider<AuthService>((ref) {
 
 final tripRepositoryProvider = Provider<TripRepository>((ref) {
   return TripRepository(ref.watch(dioProvider));
+});
+
+final driverTripRepositoryProvider = Provider<DriverTripRepository>((ref) {
+  return DriverTripRepository(ref.watch(dioProvider));
+});
+
+final exceptionRepositoryProvider = Provider<ExceptionRepository>((ref) {
+  return ExceptionRepository(ref.watch(dioProvider));
 });
 
 // ── Auth session state ────────────────────────────────────────────────────

@@ -1,0 +1,122 @@
+import 'package:elog_driver/core/storage/secure_storage_service.dart';
+import 'package:elog_driver/features/auth/data/auth_service.dart';
+import 'package:elog_driver/features/driver_trips/data/repositories/trip_repository.dart';
+import 'package:elog_driver/features/driver_trips/data/models/trip_model.dart';
+import 'package:dio/dio.dart';
+
+class FakeSecureStorage implements SecureStorageService {
+  final Map<String, String> _data = {};
+
+  @override
+  Future<void> saveTokens({
+    required String accessToken,
+    required String refreshToken,
+    required String username,
+    required String roles,
+    required String userId,
+    required String fullName,
+  }) async {
+    _data['accessToken'] = accessToken;
+    _data['refreshToken'] = refreshToken;
+    _data['username'] = username;
+    _data['roles'] = roles;
+    _data['userId'] = userId;
+    _data['fullName'] = fullName;
+  }
+
+  @override
+  Future<String?> getAccessToken() async => _data['accessToken'];
+  @override
+  Future<String?> getRefreshToken() async => _data['refreshToken'];
+  @override
+  Future<String?> getUsername() async => _data['username'];
+  @override
+  Future<String?> getRoles() async => _data['roles'];
+  @override
+  Future<String?> getUserId() async => _data['userId'];
+  @override
+  Future<String?> getFullName() async => _data['fullName'];
+
+  @override
+  Future<bool> isLoggedIn() async {
+    final token = await getAccessToken();
+    return token != null && token.isNotEmpty;
+  }
+
+  @override
+  Future<bool> isDriver() async {
+    final roles = await getRoles();
+    return roles != null && roles.contains('DRIVER');
+  }
+
+  @override
+  Future<void> clearAll() async {
+    _data.clear();
+  }
+}
+
+class FakeAuthService implements AuthService {
+  final FakeSecureStorage _fakeStorage;
+  bool shouldFail = false;
+  String failMessage = 'Invalid credentials';
+
+  FakeAuthService(this._fakeStorage);
+
+  @override
+  Dio get _dio => throw UnimplementedError();
+
+  @override
+  SecureStorageService get _storage => _fakeStorage;
+
+  @override
+  Future<Map<String, dynamic>> login({
+    required String username,
+    required String password,
+  }) async {
+    if (shouldFail) {
+      throw Exception(failMessage);
+    }
+    final roles = username == 'driver' ? ['DRIVER'] : ['USER'];
+    await _fakeStorage.saveTokens(
+      accessToken: 'fake_access_token',
+      refreshToken: 'fake_refresh_token',
+      username: username,
+      roles: roles.join(','),
+      userId: '123',
+      fullName: 'Fake Full Name',
+    );
+    return {
+      'roles': roles,
+      'username': username,
+      'userId': '123',
+      'accessToken': 'fake_access_token',
+    };
+  }
+
+  @override
+  Future<void> logout() async {
+    await _fakeStorage.clearAll();
+  }
+}
+
+class FakeTripRepository implements TripRepository {
+  List<TripModel> mockTrips = [];
+  bool shouldFail = false;
+
+  @override
+  Dio get _dio => throw UnimplementedError();
+
+  @override
+  Future<List<TripModel>> getMyTrips({
+    required String date,
+    String? status,
+  }) async {
+    if (shouldFail) {
+      throw Exception('Failed to load trips');
+    }
+    return mockTrips;
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}

@@ -2,7 +2,10 @@ import 'package:elog_driver/core/storage/secure_storage_service.dart';
 import 'package:elog_driver/features/auth/data/auth_service.dart';
 import 'package:elog_driver/features/driver_trips/data/repositories/trip_repository.dart';
 import 'package:elog_driver/features/driver_trips/data/models/trip_model.dart';
+import 'package:elog_driver/features/driver_trips/data/models/driver_trip_model.dart';
+import 'package:elog_driver/features/driver_trips/data/models/trip_outcome_model.dart';
 import 'package:dio/dio.dart';
+
 
 class FakeSecureStorage implements SecureStorageService {
   final Map<String, String> _data = {};
@@ -115,6 +118,30 @@ class FakeTripRepository implements TripRepository {
       throw Exception('Failed to load trips');
     }
     return mockTrips;
+  }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class FakeDriverTripRepository implements DriverTripRepository {
+  DriverTripModel? mockActiveTrip;
+  List<DriverTripModel> mockPendingReturnTrips = [];
+  bool shouldFail = false;
+
+  @override
+  Dio get _dio => throw UnimplementedError();
+
+  @override
+  Future<DriverTripModel?> getActiveTrip() async {
+    if (shouldFail) throw Exception('Failed to get active trip');
+    return mockActiveTrip;
+  }
+
+  @override
+  Future<List<DriverTripModel>> getPendingReturnTrips() async {
+    if (shouldFail) throw Exception('Failed to get pending return trips');
+    return mockPendingReturnTrips;
   }
 
   @override

@@ -4,6 +4,8 @@ import 'package:elog_driver/features/driver_trips/data/repositories/trip_reposit
 import 'package:elog_driver/features/driver_trips/data/models/trip_model.dart';
 import 'package:elog_driver/features/driver_trips/data/models/driver_trip_model.dart';
 import 'package:elog_driver/features/driver_trips/data/models/trip_outcome_model.dart';
+import 'package:elog_driver/features/exceptions/data/repositories/exception_repository.dart';
+import 'package:elog_driver/features/exceptions/data/models/exception_item_model.dart';
 import 'package:dio/dio.dart';
 
 
@@ -146,4 +148,29 @@ class FakeDriverTripRepository implements DriverTripRepository {
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class FakeExceptionRepository implements ExceptionRepository {
+  ExceptionListModel? mockResult;
+  bool shouldFail = false;
+
+  @override
+  Dio get _dio => throw UnimplementedError();
+
+  @override
+  Future<ExceptionListModel> getExceptions({
+    required String date,
+    String type = 'ALL',
+    String resolved = 'false',
+  }) async {
+    if (shouldFail) {
+      throw Exception('Failed to get exceptions');
+    }
+    return mockResult ?? ExceptionListModel(
+      date: date,
+      totalCount: 0,
+      unresolvedCount: 0,
+      exceptions: const [],
+    );
+  }
 }

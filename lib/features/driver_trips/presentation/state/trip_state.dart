@@ -427,6 +427,7 @@ class ActiveTripState {
   final bool isCompleting;
   final bool isReturningToWarehouse;
   final int? updatingOrderId;
+  final int? arrivingStopId;
 
   const ActiveTripState({
     this.isLoading = false,
@@ -437,6 +438,7 @@ class ActiveTripState {
     this.isCompleting = false,
     this.isReturningToWarehouse = false,
     this.updatingOrderId,
+    this.arrivingStopId,
   });
 
   ActiveTripState copyWith({
@@ -452,6 +454,8 @@ class ActiveTripState {
     bool? isReturningToWarehouse,
     int? updatingOrderId,
     bool clearUpdatingOrderId = false,
+    int? arrivingStopId,
+    bool clearArrivingStopId = false,
   }) {
     return ActiveTripState(
       isLoading: isLoading ?? this.isLoading,
@@ -465,6 +469,9 @@ class ActiveTripState {
       updatingOrderId: clearUpdatingOrderId
           ? null
           : (updatingOrderId ?? this.updatingOrderId),
+      arrivingStopId: clearArrivingStopId
+          ? null
+          : (arrivingStopId ?? this.arrivingStopId),
     );
   }
 }
@@ -516,6 +523,27 @@ class ActiveTripNotifier extends StateNotifier<ActiveTripState> {
         isStarting: false,
         errorMessage: _formatError(e),
       );
+      await _refreshAfterActionError();
+      rethrow;
+    }
+  }
+
+  /// Driver taps "Đã đến điểm giao" for [stopId]. Must succeed before the
+  /// order-result update UI unlocks for that stop's orders — see
+  /// [DriverStopModel.hasArrived] gating in MyTripsPage.
+  Future<void> arriveAtStop(int stopId) async {
+    final trip = state.trip;
+    if (trip == null) return;
+    state = state.copyWith(arrivingStopId: stopId, clearError: true);
+    try {
+      final updated = await _repo.arriveAtStop(trip.executionId, stopId);
+      state = state.copyWith(clearArrivingStopId: true, trip: updated);
+    } catch (e) {
+      state = state.copyWith(
+        clearArrivingStopId: true,
+        errorMessage: _formatError(e),
+      );
+      await _refreshAfterActionError();
       rethrow;
     }
   }
@@ -534,6 +562,7 @@ class ActiveTripNotifier extends StateNotifier<ActiveTripState> {
         clearUpdatingOrderId: true,
         errorMessage: _formatError(e),
       );
+      await _refreshAfterActionError();
       rethrow;
     }
   }
@@ -565,6 +594,7 @@ class ActiveTripNotifier extends StateNotifier<ActiveTripState> {
         isCompleting: false,
         errorMessage: _formatError(e),
       );
+      await _refreshAfterActionError();
       rethrow;
     }
   }
@@ -584,11 +614,36 @@ class ActiveTripNotifier extends StateNotifier<ActiveTripState> {
         isReturningToWarehouse: false,
         errorMessage: _formatError(e),
       );
+      await _refreshAfterActionError();
       rethrow;
     }
   }
 
   void clearError() => state = state.copyWith(clearError: true);
+
+  /// Best-effort silent re-sync after an action fails — e.g. a Dispatcher used
+  /// Admin Override to force-complete/force-return this execution while the
+  /// driver's app still had it open, so the local state is now stale. Fetches
+  /// straight from the server (not `isLoading`, so it doesn't blank the screen
+  /// mid-SnackBar) and leaves the just-set [ActiveTripState.errorMessage]
+  /// intact so the driver still sees why the tap failed.
+  Future<void> _refreshAfterActionError() async {
+    try {
+      final fetched = await _repo.getActiveTrip();
+      if (fetched != null) {
+        state = state.copyWith(trip: fetched);
+        return;
+      }
+      final pending = await _repo.getPendingReturnTrips();
+      state = state.copyWith(
+        trip: pending.isNotEmpty ? pending.first : null,
+        clearTrip: pending.isEmpty,
+      );
+    } catch (_) {
+      // Refresh itself failed (e.g. offline) — keep showing the stale trip
+      // with the original error rather than losing state over a second error.
+    }
+  }
 }
 
 final activeTripProvider =

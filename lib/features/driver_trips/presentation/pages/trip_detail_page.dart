@@ -682,19 +682,19 @@ class _StopTimelineItem extends StatelessWidget {
                 _TimeRow(
                   icon: Icons.schedule_outlined,
                   label: 'ETA',
-                  value: formatTime(stop.plannedEta),
+                  value: formatTimeSmart(stop.plannedEta),
                 ),
               if (stop.actualArrivalTime != null)
                 _TimeRow(
                   icon: Icons.login_rounded,
                   label: 'Đến lúc',
-                  value: formatTime(stop.actualArrivalTime),
+                  value: formatTimeSmart(stop.actualArrivalTime),
                 ),
               if (stop.actualDepartureTime != null)
                 _TimeRow(
                   icon: Icons.logout_rounded,
                   label: 'Rời lúc',
-                  value: formatTime(stop.actualDepartureTime),
+                  value: formatTimeSmart(stop.actualDepartureTime),
                 ),
               if (stop.delayMinutes != null && stop.delayMinutes! > 0)
                 _TimeRow(

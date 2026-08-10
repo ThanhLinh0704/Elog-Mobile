@@ -123,7 +123,7 @@ class _TripMapPageState extends ConsumerState<TripMapPage> {
             ),
             children: [
               TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                urlTemplate: 'https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
                 userAgentPackageName: 'com.elog.driver',
               ),
               if (linePoints.length > 1)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/utils/date_time_utils.dart';
 import '../../../../providers.dart';
 import '../state/trip_state.dart';
 import '../../data/models/driver_trip_model.dart';
@@ -871,12 +872,26 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
     }
     final sortedStops = [...trip.stops]
       ..sort((a, b) => a.sequenceNo.compareTo(b.sequenceNo));
+    // The one stop the driver can act on right now — first one whose orders
+    // aren't all resolved yet. Mirrors the server's sequential-stop rule
+    // (PREVIOUS_STOP_NOT_DONE), so only this stop ever shows the "Đã đến
+    // điểm giao" button — no jumping ahead to a later stop.
+    final currentStopId = sortedStops
+        .firstWhere(
+          (s) => s.aggregatedStatus == StopAggregatedStatus.pending,
+          orElse: () => sortedStops.last,
+        )
+        .stopId;
 
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: sortedStops.length,
       itemBuilder: (ctx, i) {
         final stop = sortedStops[i];
+        final isCurrentStop = stop.stopId == currentStopId;
+        final showArriveButton = isCurrentStop &&
+            !stop.hasArrived &&
+            trip.status == ExecutionStatus.inProgress;
         return Card(
           margin: const EdgeInsets.only(bottom: 16),
           child: Padding(
@@ -925,6 +940,54 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
                     ],
                   ),
                 ],
+                if (showArriveButton) ...[
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: state.arrivingStopId == stop.stopId
+                          ? null
+                          : () => _arriveAtStop(context, stop, notifier),
+                      icon: state.arrivingStopId == stop.stopId
+                          ? const SizedBox(
+                              height: 16,
+                              width: 16,
+                              child: CircularProgressIndicator(
+                                  strokeWidth: 2, color: Colors.white),
+                            )
+                          : const Icon(Icons.pin_drop_outlined, size: 18),
+                      label: Text(
+                        state.arrivingStopId == stop.stopId
+                            ? 'Đang xử lý...'
+                            : 'Đã đến điểm giao',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 11),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                    ),
+                  ),
+                ] else if (stop.hasArrived && stop.actualArrivalTime != null) ...[
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      const Icon(Icons.check_circle,
+                          size: 14, color: AppTheme.statusCompleted),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Đã đến lúc ${formatTimeSmart(stop.actualArrivalTime)}',
+                        style: const TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.statusCompleted,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ],
                 const Divider(height: 20),
 
                 // Orders
@@ -963,7 +1026,7 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
                           Text('Lý do: ${order.exceptionReason}',
                               style: const TextStyle(
                                   fontSize: 12, color: Colors.red)),
-                        if (isPending) ...[
+                        if (isPending && stop.hasArrived) ...[
                           const SizedBox(height: 8),
                           SizedBox(
                             width: double.infinity,
@@ -985,6 +1048,25 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
                               icon: const Icon(Icons.edit_note, size: 16),
                               label: const Text('Cập nhật kết quả'),
                             ),
+                          ),
+                        ] else if (isPending && !stop.hasArrived) ...[
+                          // Locked until the driver taps "Đã đến điểm giao"
+                          // above (BUG-STOP-TIME-01) — server would reject an
+                          // order update on a PENDING stop anyway.
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Icon(Icons.lock_outline,
+                                  size: 14, color: Colors.grey[500]),
+                              const SizedBox(width: 4),
+                              Expanded(
+                                child: Text(
+                                  'Bấm "Đã đến điểm giao" ở trên trước khi cập nhật.',
+                                  style: TextStyle(
+                                      fontSize: 11.5, color: Colors.grey[600]),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ],
@@ -1015,6 +1097,30 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
       await notifier.startTrip();
       if (context.mounted) {
         showSnackBar(context, 'Chuyến đã bắt đầu. Chúc bạn giao hàng an toàn!');
+      }
+    } catch (_) {
+      // Error already surfaced via the ref.listen SnackBar in build().
+    }
+  }
+
+  Future<void> _arriveAtStop(
+    BuildContext context,
+    DriverStopModel stop,
+    ActiveTripNotifier notifier,
+  ) async {
+    final confirmed = await showConfirmDialog(
+      context,
+      title: 'Đã đến điểm giao',
+      content:
+          'Xác nhận bạn đã đến "${stop.storeCode} - ${stop.storeName}"?',
+      confirmLabel: 'Xác nhận',
+      confirmColor: AppTheme.primary,
+    );
+    if (!confirmed) return;
+    try {
+      await notifier.arriveAtStop(stop.stopId);
+      if (context.mounted) {
+        showSnackBar(context, 'Đã ghi nhận đến điểm giao.');
       }
     } catch (_) {
       // Error already surfaced via the ref.listen SnackBar in build().

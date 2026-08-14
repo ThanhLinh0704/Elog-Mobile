@@ -23,11 +23,6 @@ String formatTime(String? raw, {String fallback = '—'}) {
 }
 
 /// Format time (HH:mm), appending a short "dd/MM" date suffix when [raw]
-/// isn't today. A trip execution can now legitimately span a day boundary
-/// (driver starts on day 1, finishes on day 2), so a bare "HH:mm" on an
-/// actual arrival/departure timestamp can silently read as "just now" when
-/// it actually happened the day before. Use this instead of [formatTime]
-/// for any *actual* (not planned-only-by-time-of-day) timestamp.
 String formatTimeSmart(String? raw, {String fallback = '—'}) {
   if (raw == null || raw.isEmpty) return fallback;
   try {

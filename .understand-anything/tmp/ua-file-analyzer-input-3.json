@@ -1,0 +1,241 @@
+{
+  "projectRoot": "D:\\FULearning\\semester 9\\Elog\\Flutter_app\\Elog-Mobile",
+  "batchFiles": [
+    {
+      "path": "lib/features/profile/presentation/pages/profile_page.dart",
+      "language": "dart",
+      "sizeLines": 313,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/main.dart",
+      "language": "dart",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/providers.dart",
+      "language": "dart",
+      "sizeLines": 119,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/routes/router.dart",
+      "language": "dart",
+      "sizeLines": 84,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/auth_notifier_test.dart",
+      "language": "dart",
+      "sizeLines": 59,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/exception_model_test.dart",
+      "language": "dart",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/exception_notifier_test.dart",
+      "language": "dart",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/fakes.dart",
+      "language": "dart",
+      "sizeLines": 249,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/login_page_test.dart",
+      "language": "dart",
+      "sizeLines": 79,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/trip_model_test.dart",
+      "language": "dart",
+      "sizeLines": 66,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/trip_notifier_test.dart",
+      "language": "dart",
+      "sizeLines": 214,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/widget_test.dart",
+      "language": "dart",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/flutter/generated_plugin_registrant.cc",
+      "language": "cpp",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/flutter/generated_plugin_registrant.h",
+      "language": "cpp",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/flutter/generated_plugins.cmake",
+      "language": "cmake",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/runner/flutter_window.cpp",
+      "language": "cpp",
+      "sizeLines": 71,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/runner/flutter_window.h",
+      "language": "cpp",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/runner/main.cpp",
+      "language": "cpp",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/runner/resource.h",
+      "language": "cpp",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/runner/runner.exe.manifest",
+      "language": "manifest",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/runner/Runner.rc",
+      "language": "rc",
+      "sizeLines": 121,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/runner/utils.cpp",
+      "language": "cpp",
+      "sizeLines": 65,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/runner/utils.h",
+      "language": "cpp",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/runner/win32_window.cpp",
+      "language": "cpp",
+      "sizeLines": 288,
+      "fileCategory": "code"
+    },
+    {
+      "path": "windows/runner/win32_window.h",
+      "language": "cpp",
+      "sizeLines": 102,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "lib/features/profile/presentation/pages/profile_page.dart": [
+      "lib/core/theme/app_theme.dart",
+      "lib/features/driver_trips/presentation/widgets/shared_widgets.dart",
+      "lib/providers.dart"
+    ],
+    "lib/main.dart": [
+      "lib/core/theme/app_theme.dart",
+      "lib/routes/router.dart"
+    ],
+    "lib/providers.dart": [],
+    "lib/routes/router.dart": [
+      "lib/features/auth/presentation/login_page.dart",
+      "lib/features/driver_trips/presentation/pages/my_trips_page.dart",
+      "lib/features/driver_trips/presentation/pages/trip_detail_page.dart",
+      "lib/features/exceptions/presentation/pages/my_exceptions_page.dart",
+      "lib/features/profile/presentation/pages/profile_page.dart",
+      "lib/providers.dart"
+    ],
+    "test/auth_notifier_test.dart": [
+      "lib/providers.dart",
+      "test/fakes.dart"
+    ],
+    "test/exception_model_test.dart": [
+      "lib/features/exceptions/data/models/exception_item_model.dart"
+    ],
+    "test/exception_notifier_test.dart": [
+      "lib/features/exceptions/data/models/exception_item_model.dart",
+      "lib/features/exceptions/presentation/state/exception_state.dart",
+      "test/fakes.dart"
+    ],
+    "test/fakes.dart": [
+      "lib/core/storage/secure_storage_service.dart",
+      "lib/features/auth/data/auth_service.dart",
+      "lib/features/driver_trips/data/models/driver_trip_model.dart",
+      "lib/features/driver_trips/data/models/trip_model.dart",
+      "lib/features/driver_trips/data/models/trip_outcome_model.dart",
+      "lib/features/driver_trips/data/repositories/trip_repository.dart",
+      "lib/features/exceptions/data/models/exception_item_model.dart",
+      "lib/features/exceptions/data/repositories/exception_repository.dart"
+    ],
+    "test/login_page_test.dart": [
+      "lib/features/auth/presentation/login_page.dart",
+      "lib/providers.dart",
+      "test/fakes.dart"
+    ],
+    "test/trip_model_test.dart": [
+      "lib/features/driver_trips/data/models/trip_model.dart",
+      "lib/features/driver_trips/data/models/trip_stop_model.dart"
+    ],
+    "test/trip_notifier_test.dart": [
+      "lib/features/driver_trips/data/models/trip_model.dart",
+      "lib/features/driver_trips/presentation/state/trip_state.dart",
+      "test/fakes.dart"
+    ],
+    "test/widget_test.dart": [
+      "lib/main.dart"
+    ],
+    "windows/flutter/generated_plugin_registrant.cc": [
+      "windows/flutter/generated_plugin_registrant.h"
+    ],
+    "windows/flutter/generated_plugin_registrant.h": [],
+    "windows/flutter/generated_plugins.cmake": [],
+    "windows/runner/flutter_window.cpp": [
+      "windows/runner/flutter_window.h"
+    ],
+    "windows/runner/flutter_window.h": [
+      "windows/runner/win32_window.h"
+    ],
+    "windows/runner/main.cpp": [
+      "windows/runner/flutter_window.h",
+      "windows/runner/utils.h"
+    ],
+    "windows/runner/resource.h": [],
+    "windows/runner/runner.exe.manifest": [],
+    "windows/runner/Runner.rc": [],
+    "windows/runner/utils.cpp": [
+      "windows/runner/utils.h"
+    ],
+    "windows/runner/utils.h": [],
+    "windows/runner/win32_window.cpp": [
+      "windows/runner/resource.h",
+      "windows/runner/win32_window.h"
+    ],
+    "windows/runner/win32_window.h": []
+  }
+}

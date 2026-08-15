@@ -1,0 +1,207 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "lib/core/theme/app_theme.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 210,
+      "nonEmptyLines": 197,
+      "metrics": {}
+    },
+    {
+      "path": "lib/core/utils/date_time_utils.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 41,
+      "metrics": {}
+    },
+    {
+      "path": "lib/core/utils/polyline_decoder.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 46,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/auth/data/auth_service.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 62,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/auth/presentation/login_page.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 280,
+      "nonEmptyLines": 267,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/delivery_rejection/presentation/rejection_bottom_sheet.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 289,
+      "nonEmptyLines": 264,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/action_results.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 169,
+      "nonEmptyLines": 155,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/driver_trip_model.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 412,
+      "nonEmptyLines": 374,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/trip_model.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 124,
+      "nonEmptyLines": 111,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/trip_outcome_model.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 90,
+      "nonEmptyLines": 84,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/trip_progress_model.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 81,
+      "nonEmptyLines": 74,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/trip_stop_model.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 95,
+      "nonEmptyLines": 90,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/update_order_result_request.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 23,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/data/repositories/trip_repository.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 258,
+      "nonEmptyLines": 234,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/pages/my_trips_page.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 1186,
+      "nonEmptyLines": 1135,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/pages/trip_detail_page.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 856,
+      "nonEmptyLines": 813,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/pages/trip_map_page.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 299,
+      "nonEmptyLines": 277,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/state/trip_state.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 598,
+      "nonEmptyLines": 545,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/widgets/order_result_bottom_sheet.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 311,
+      "nonEmptyLines": 290,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/widgets/shared_widgets.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 275,
+      "nonEmptyLines": 258,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/widgets/trip_calendar_dialog.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 221,
+      "nonEmptyLines": 206,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/exceptions/data/models/exception_item_model.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 123,
+      "nonEmptyLines": 109,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/exceptions/data/repositories/exception_repository.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 32,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/exceptions/presentation/pages/my_exceptions_page.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 492,
+      "nonEmptyLines": 460,
+      "metrics": {}
+    },
+    {
+      "path": "lib/features/exceptions/presentation/state/exception_state.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 105,
+      "nonEmptyLines": 94,
+      "metrics": {}
+    }
+  ]
+}

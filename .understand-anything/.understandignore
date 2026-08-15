@@ -1,0 +1,26 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+# Lines below are suggestions only — uncomment to activate.
+# Built-in defaults already exclude dependency/build artifacts such as .git/,
+# .dart_tool/, build/, coverage/, lockfiles, binaries, and media.
+
+# --- Project-specific candidates from .gitignore ---
+
+# .flutter-plugins-dependencies
+# .pub-cache/
+# .pub/
+# **/ios/Flutter/.last_build_id
+# app.*.symbols
+# app.*.map.json
+
+# --- Detected directories (kept in scope for this comprehensive audit) ---
+
+# integration_test/
+# test/
+# android/
+# windows/
+
+# --- Test file patterns (kept in scope) ---
+
+# *_test.dart
+

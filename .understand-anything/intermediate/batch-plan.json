@@ -1,0 +1,727 @@
+{
+  "project": {
+    "name": "elog_driver",
+    "description": "Ứng dụng Flutter dành cho tài xế của ELog, kết nối với Spring Boot API để xác thực bằng JWT, quản lý và thực thi chuyến giao hàng theo luồng stop-based hoặc FT-09 order-based, xử lý kết quả giao hàng và ngoại lệ, hoàn tất chuyến, xem lịch sử và bản đồ.",
+    "languages": [
+      "cmake",
+      "cpp",
+      "dart",
+      "kotlin",
+      "manifest",
+      "markdown",
+      "properties",
+      "rc",
+      "txt",
+      "unknown",
+      "xml",
+      "yaml"
+    ],
+    "frameworks": [
+      "Flutter",
+      "GoRouter",
+      "Riverpod"
+    ]
+  },
+  "totalFiles": 75,
+  "totalBatches": 3,
+  "batches": [
+    {
+      "index": 1,
+      "files": [
+        {
+          "path": "README.md",
+          "language": "markdown",
+          "sizeLines": 201,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "windows/CMakeLists.txt",
+          "language": "txt",
+          "sizeLines": 108,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "windows/flutter/CMakeLists.txt",
+          "language": "txt",
+          "sizeLines": 109,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "windows/runner/CMakeLists.txt",
+          "language": "txt",
+          "sizeLines": 40,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "analysis_options.yaml",
+          "language": "yaml",
+          "sizeLines": 28,
+          "fileCategory": "config"
+        },
+        {
+          "path": "android/app/src/debug/AndroidManifest.xml",
+          "language": "xml",
+          "sizeLines": 7,
+          "fileCategory": "config"
+        },
+        {
+          "path": "android/app/src/main/AndroidManifest.xml",
+          "language": "xml",
+          "sizeLines": 45,
+          "fileCategory": "config"
+        },
+        {
+          "path": "android/app/src/main/res/drawable-v21/launch_background.xml",
+          "language": "xml",
+          "sizeLines": 12,
+          "fileCategory": "config"
+        },
+        {
+          "path": "android/app/src/main/res/drawable/launch_background.xml",
+          "language": "xml",
+          "sizeLines": 12,
+          "fileCategory": "config"
+        },
+        {
+          "path": "android/app/src/main/res/values-night/styles.xml",
+          "language": "xml",
+          "sizeLines": 18,
+          "fileCategory": "config"
+        },
+        {
+          "path": "android/app/src/main/res/values/styles.xml",
+          "language": "xml",
+          "sizeLines": 18,
+          "fileCategory": "config"
+        },
+        {
+          "path": "android/app/src/profile/AndroidManifest.xml",
+          "language": "xml",
+          "sizeLines": 7,
+          "fileCategory": "config"
+        },
+        {
+          "path": "pubspec.yaml",
+          "language": "yaml",
+          "sizeLines": 49,
+          "fileCategory": "config"
+        },
+        {
+          "path": ".metadata",
+          "language": "unknown",
+          "sizeLines": 30,
+          "fileCategory": "code"
+        },
+        {
+          "path": "android/app/build.gradle.kts",
+          "language": "kotlin",
+          "sizeLines": 44,
+          "fileCategory": "code"
+        },
+        {
+          "path": "android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+          "language": "kotlin",
+          "sizeLines": 5,
+          "fileCategory": "code"
+        },
+        {
+          "path": "android/build.gradle.kts",
+          "language": "kotlin",
+          "sizeLines": 24,
+          "fileCategory": "code"
+        },
+        {
+          "path": "android/gradle.properties",
+          "language": "properties",
+          "sizeLines": 2,
+          "fileCategory": "code"
+        },
+        {
+          "path": "android/gradle/wrapper/gradle-wrapper.properties",
+          "language": "properties",
+          "sizeLines": 5,
+          "fileCategory": "code"
+        },
+        {
+          "path": "android/settings.gradle.kts",
+          "language": "kotlin",
+          "sizeLines": 26,
+          "fileCategory": "code"
+        },
+        {
+          "path": "integration_test/app_test.dart",
+          "language": "dart",
+          "sizeLines": 187,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/core/constants.dart",
+          "language": "dart",
+          "sizeLines": 22,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/core/error/exceptions.dart",
+          "language": "dart",
+          "sizeLines": 56,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/core/network/dio_client.dart",
+          "language": "dart",
+          "sizeLines": 74,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/core/storage/secure_storage_service.dart",
+          "language": "dart",
+          "sizeLines": 47,
+          "fileCategory": "code"
+        }
+      ],
+      "importData": {
+        "README.md": [],
+        "windows/CMakeLists.txt": [],
+        "windows/flutter/CMakeLists.txt": [],
+        "windows/runner/CMakeLists.txt": [],
+        "analysis_options.yaml": [],
+        "android/app/src/debug/AndroidManifest.xml": [],
+        "android/app/src/main/AndroidManifest.xml": [],
+        "android/app/src/main/res/drawable-v21/launch_background.xml": [],
+        "android/app/src/main/res/drawable/launch_background.xml": [],
+        "android/app/src/main/res/values-night/styles.xml": [],
+        "android/app/src/main/res/values/styles.xml": [],
+        "android/app/src/profile/AndroidManifest.xml": [],
+        "pubspec.yaml": [],
+        ".metadata": [],
+        "android/app/build.gradle.kts": [],
+        "android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt": [],
+        "android/build.gradle.kts": [],
+        "android/gradle.properties": [],
+        "android/gradle/wrapper/gradle-wrapper.properties": [],
+        "android/settings.gradle.kts": [],
+        "integration_test/app_test.dart": [
+          "lib/features/driver_trips/data/models/trip_model.dart",
+          "lib/main.dart",
+          "lib/providers.dart",
+          "test/fakes.dart"
+        ],
+        "lib/core/constants.dart": [],
+        "lib/core/error/exceptions.dart": [],
+        "lib/core/network/dio_client.dart": [
+          "lib/core/constants.dart",
+          "lib/core/error/exceptions.dart",
+          "lib/core/storage/secure_storage_service.dart"
+        ],
+        "lib/core/storage/secure_storage_service.dart": [
+          "lib/core/constants.dart"
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "files": [
+        {
+          "path": "lib/core/theme/app_theme.dart",
+          "language": "dart",
+          "sizeLines": 210,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/core/utils/date_time_utils.dart",
+          "language": "dart",
+          "sizeLines": 46,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/core/utils/polyline_decoder.dart",
+          "language": "dart",
+          "sizeLines": 52,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/auth/data/auth_service.dart",
+          "language": "dart",
+          "sizeLines": 69,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/auth/presentation/login_page.dart",
+          "language": "dart",
+          "sizeLines": 280,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/delivery_rejection/presentation/rejection_bottom_sheet.dart",
+          "language": "dart",
+          "sizeLines": 289,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/data/models/action_results.dart",
+          "language": "dart",
+          "sizeLines": 169,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/data/models/driver_trip_model.dart",
+          "language": "dart",
+          "sizeLines": 412,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/data/models/trip_model.dart",
+          "language": "dart",
+          "sizeLines": 124,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/data/models/trip_outcome_model.dart",
+          "language": "dart",
+          "sizeLines": 90,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/data/models/trip_progress_model.dart",
+          "language": "dart",
+          "sizeLines": 81,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/data/models/trip_stop_model.dart",
+          "language": "dart",
+          "sizeLines": 95,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/data/models/update_order_result_request.dart",
+          "language": "dart",
+          "sizeLines": 26,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/data/repositories/trip_repository.dart",
+          "language": "dart",
+          "sizeLines": 258,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/presentation/pages/my_trips_page.dart",
+          "language": "dart",
+          "sizeLines": 1186,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/presentation/pages/trip_detail_page.dart",
+          "language": "dart",
+          "sizeLines": 856,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/presentation/pages/trip_map_page.dart",
+          "language": "dart",
+          "sizeLines": 299,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/presentation/state/trip_state.dart",
+          "language": "dart",
+          "sizeLines": 598,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/presentation/widgets/order_result_bottom_sheet.dart",
+          "language": "dart",
+          "sizeLines": 311,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/presentation/widgets/shared_widgets.dart",
+          "language": "dart",
+          "sizeLines": 275,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/driver_trips/presentation/widgets/trip_calendar_dialog.dart",
+          "language": "dart",
+          "sizeLines": 221,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/exceptions/data/models/exception_item_model.dart",
+          "language": "dart",
+          "sizeLines": 123,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/exceptions/data/repositories/exception_repository.dart",
+          "language": "dart",
+          "sizeLines": 35,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/exceptions/presentation/pages/my_exceptions_page.dart",
+          "language": "dart",
+          "sizeLines": 492,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/features/exceptions/presentation/state/exception_state.dart",
+          "language": "dart",
+          "sizeLines": 105,
+          "fileCategory": "code"
+        }
+      ],
+      "importData": {
+        "lib/core/theme/app_theme.dart": [],
+        "lib/core/utils/date_time_utils.dart": [],
+        "lib/core/utils/polyline_decoder.dart": [],
+        "lib/features/auth/data/auth_service.dart": [
+          "lib/core/network/dio_client.dart",
+          "lib/core/storage/secure_storage_service.dart"
+        ],
+        "lib/features/auth/presentation/login_page.dart": [
+          "lib/core/error/exceptions.dart",
+          "lib/core/theme/app_theme.dart",
+          "lib/providers.dart"
+        ],
+        "lib/features/delivery_rejection/presentation/rejection_bottom_sheet.dart": [
+          "lib/features/driver_trips/presentation/widgets/shared_widgets.dart"
+        ],
+        "lib/features/driver_trips/data/models/action_results.dart": [],
+        "lib/features/driver_trips/data/models/driver_trip_model.dart": [],
+        "lib/features/driver_trips/data/models/trip_model.dart": [
+          "lib/features/driver_trips/data/models/trip_stop_model.dart"
+        ],
+        "lib/features/driver_trips/data/models/trip_outcome_model.dart": [],
+        "lib/features/driver_trips/data/models/trip_progress_model.dart": [],
+        "lib/features/driver_trips/data/models/trip_stop_model.dart": [],
+        "lib/features/driver_trips/data/models/update_order_result_request.dart": [
+          "lib/features/driver_trips/data/models/driver_trip_model.dart"
+        ],
+        "lib/features/driver_trips/data/repositories/trip_repository.dart": [
+          "lib/core/network/dio_client.dart",
+          "lib/features/driver_trips/data/models/action_results.dart",
+          "lib/features/driver_trips/data/models/driver_trip_model.dart",
+          "lib/features/driver_trips/data/models/trip_model.dart",
+          "lib/features/driver_trips/data/models/trip_outcome_model.dart",
+          "lib/features/driver_trips/data/models/trip_progress_model.dart",
+          "lib/features/driver_trips/data/models/update_order_result_request.dart"
+        ],
+        "lib/features/driver_trips/presentation/pages/my_trips_page.dart": [
+          "lib/core/theme/app_theme.dart",
+          "lib/features/driver_trips/data/models/driver_trip_model.dart",
+          "lib/features/driver_trips/data/models/trip_model.dart",
+          "lib/features/driver_trips/presentation/pages/trip_detail_page.dart",
+          "lib/features/driver_trips/presentation/pages/trip_map_page.dart",
+          "lib/features/driver_trips/presentation/state/trip_state.dart",
+          "lib/features/driver_trips/presentation/widgets/order_result_bottom_sheet.dart",
+          "lib/features/driver_trips/presentation/widgets/shared_widgets.dart",
+          "lib/features/driver_trips/presentation/widgets/trip_calendar_dialog.dart",
+          "lib/features/exceptions/presentation/pages/my_exceptions_page.dart",
+          "lib/features/profile/presentation/pages/profile_page.dart",
+          "lib/providers.dart"
+        ],
+        "lib/features/driver_trips/presentation/pages/trip_detail_page.dart": [
+          "lib/core/error/exceptions.dart",
+          "lib/core/theme/app_theme.dart",
+          "lib/core/utils/date_time_utils.dart",
+          "lib/features/delivery_rejection/presentation/rejection_bottom_sheet.dart",
+          "lib/features/driver_trips/data/models/trip_stop_model.dart",
+          "lib/features/driver_trips/presentation/pages/trip_map_page.dart",
+          "lib/features/driver_trips/presentation/state/trip_state.dart",
+          "lib/features/driver_trips/presentation/widgets/shared_widgets.dart"
+        ],
+        "lib/features/driver_trips/presentation/pages/trip_map_page.dart": [
+          "lib/core/theme/app_theme.dart",
+          "lib/core/utils/polyline_decoder.dart",
+          "lib/features/driver_trips/data/models/trip_progress_model.dart",
+          "lib/features/driver_trips/presentation/widgets/shared_widgets.dart",
+          "lib/providers.dart"
+        ],
+        "lib/features/driver_trips/presentation/state/trip_state.dart": [
+          "lib/core/error/exceptions.dart",
+          "lib/core/utils/date_time_utils.dart",
+          "lib/features/driver_trips/data/models/action_results.dart",
+          "lib/features/driver_trips/data/models/driver_trip_model.dart",
+          "lib/features/driver_trips/data/models/trip_model.dart",
+          "lib/features/driver_trips/data/models/trip_outcome_model.dart",
+          "lib/features/driver_trips/data/models/trip_stop_model.dart",
+          "lib/features/driver_trips/data/models/update_order_result_request.dart",
+          "lib/features/driver_trips/data/repositories/trip_repository.dart",
+          "lib/providers.dart"
+        ],
+        "lib/features/driver_trips/presentation/widgets/order_result_bottom_sheet.dart": [
+          "lib/features/driver_trips/data/models/driver_trip_model.dart",
+          "lib/features/driver_trips/data/models/update_order_result_request.dart"
+        ],
+        "lib/features/driver_trips/presentation/widgets/shared_widgets.dart": [
+          "lib/core/theme/app_theme.dart"
+        ],
+        "lib/features/driver_trips/presentation/widgets/trip_calendar_dialog.dart": [
+          "lib/features/driver_trips/presentation/state/trip_state.dart"
+        ],
+        "lib/features/exceptions/data/models/exception_item_model.dart": [],
+        "lib/features/exceptions/data/repositories/exception_repository.dart": [
+          "lib/core/network/dio_client.dart",
+          "lib/features/exceptions/data/models/exception_item_model.dart"
+        ],
+        "lib/features/exceptions/presentation/pages/my_exceptions_page.dart": [
+          "lib/core/theme/app_theme.dart",
+          "lib/core/utils/date_time_utils.dart",
+          "lib/features/driver_trips/presentation/widgets/shared_widgets.dart",
+          "lib/features/exceptions/data/models/exception_item_model.dart",
+          "lib/features/exceptions/presentation/state/exception_state.dart"
+        ],
+        "lib/features/exceptions/presentation/state/exception_state.dart": [
+          "lib/core/error/exceptions.dart",
+          "lib/core/utils/date_time_utils.dart",
+          "lib/features/exceptions/data/models/exception_item_model.dart",
+          "lib/features/exceptions/data/repositories/exception_repository.dart",
+          "lib/providers.dart"
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "files": [
+        {
+          "path": "lib/features/profile/presentation/pages/profile_page.dart",
+          "language": "dart",
+          "sizeLines": 313,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/main.dart",
+          "language": "dart",
+          "sizeLines": 26,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/providers.dart",
+          "language": "dart",
+          "sizeLines": 119,
+          "fileCategory": "code"
+        },
+        {
+          "path": "lib/routes/router.dart",
+          "language": "dart",
+          "sizeLines": 84,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/auth_notifier_test.dart",
+          "language": "dart",
+          "sizeLines": 59,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/exception_model_test.dart",
+          "language": "dart",
+          "sizeLines": 80,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/exception_notifier_test.dart",
+          "language": "dart",
+          "sizeLines": 73,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/fakes.dart",
+          "language": "dart",
+          "sizeLines": 249,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/login_page_test.dart",
+          "language": "dart",
+          "sizeLines": 79,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/trip_model_test.dart",
+          "language": "dart",
+          "sizeLines": 66,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/trip_notifier_test.dart",
+          "language": "dart",
+          "sizeLines": 214,
+          "fileCategory": "code"
+        },
+        {
+          "path": "test/widget_test.dart",
+          "language": "dart",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/flutter/generated_plugin_registrant.cc",
+          "language": "cpp",
+          "sizeLines": 14,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/flutter/generated_plugin_registrant.h",
+          "language": "cpp",
+          "sizeLines": 15,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/flutter/generated_plugins.cmake",
+          "language": "cmake",
+          "sizeLines": 25,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/runner/flutter_window.cpp",
+          "language": "cpp",
+          "sizeLines": 71,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/runner/flutter_window.h",
+          "language": "cpp",
+          "sizeLines": 33,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/runner/main.cpp",
+          "language": "cpp",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/runner/resource.h",
+          "language": "cpp",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/runner/runner.exe.manifest",
+          "language": "manifest",
+          "sizeLines": 14,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/runner/Runner.rc",
+          "language": "rc",
+          "sizeLines": 121,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/runner/utils.cpp",
+          "language": "cpp",
+          "sizeLines": 65,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/runner/utils.h",
+          "language": "cpp",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/runner/win32_window.cpp",
+          "language": "cpp",
+          "sizeLines": 288,
+          "fileCategory": "code"
+        },
+        {
+          "path": "windows/runner/win32_window.h",
+          "language": "cpp",
+          "sizeLines": 102,
+          "fileCategory": "code"
+        }
+      ],
+      "importData": {
+        "lib/features/profile/presentation/pages/profile_page.dart": [
+          "lib/core/theme/app_theme.dart",
+          "lib/features/driver_trips/presentation/widgets/shared_widgets.dart",
+          "lib/providers.dart"
+        ],
+        "lib/main.dart": [
+          "lib/core/theme/app_theme.dart",
+          "lib/routes/router.dart"
+        ],
+        "lib/providers.dart": [],
+        "lib/routes/router.dart": [
+          "lib/features/auth/presentation/login_page.dart",
+          "lib/features/driver_trips/presentation/pages/my_trips_page.dart",
+          "lib/features/driver_trips/presentation/pages/trip_detail_page.dart",
+          "lib/features/exceptions/presentation/pages/my_exceptions_page.dart",
+          "lib/features/profile/presentation/pages/profile_page.dart",
+          "lib/providers.dart"
+        ],
+        "test/auth_notifier_test.dart": [
+          "lib/providers.dart",
+          "test/fakes.dart"
+        ],
+        "test/exception_model_test.dart": [
+          "lib/features/exceptions/data/models/exception_item_model.dart"
+        ],
+        "test/exception_notifier_test.dart": [
+          "lib/features/exceptions/data/models/exception_item_model.dart",
+          "lib/features/exceptions/presentation/state/exception_state.dart",
+          "test/fakes.dart"
+        ],
+        "test/fakes.dart": [
+          "lib/core/storage/secure_storage_service.dart",
+          "lib/features/auth/data/auth_service.dart",
+          "lib/features/driver_trips/data/models/driver_trip_model.dart",
+          "lib/features/driver_trips/data/models/trip_model.dart",
+          "lib/features/driver_trips/data/models/trip_outcome_model.dart",
+          "lib/features/driver_trips/data/repositories/trip_repository.dart",
+          "lib/features/exceptions/data/models/exception_item_model.dart",
+          "lib/features/exceptions/data/repositories/exception_repository.dart"
+        ],
+        "test/login_page_test.dart": [
+          "lib/features/auth/presentation/login_page.dart",
+          "lib/providers.dart",
+          "test/fakes.dart"
+        ],
+        "test/trip_model_test.dart": [
+          "lib/features/driver_trips/data/models/trip_model.dart",
+          "lib/features/driver_trips/data/models/trip_stop_model.dart"
+        ],
+        "test/trip_notifier_test.dart": [
+          "lib/features/driver_trips/data/models/trip_model.dart",
+          "lib/features/driver_trips/presentation/state/trip_state.dart",
+          "test/fakes.dart"
+        ],
+        "test/widget_test.dart": [
+          "lib/main.dart"
+        ],
+        "windows/flutter/generated_plugin_registrant.cc": [
+          "windows/flutter/generated_plugin_registrant.h"
+        ],
+        "windows/flutter/generated_plugin_registrant.h": [],
+        "windows/flutter/generated_plugins.cmake": [],
+        "windows/runner/flutter_window.cpp": [
+          "windows/runner/flutter_window.h"
+        ],
+        "windows/runner/flutter_window.h": [
+          "windows/runner/win32_window.h"
+        ],
+        "windows/runner/main.cpp": [
+          "windows/runner/flutter_window.h",
+          "windows/runner/utils.h"
+        ],
+        "windows/runner/resource.h": [],
+        "windows/runner/runner.exe.manifest": [],
+        "windows/runner/Runner.rc": [],
+        "windows/runner/utils.cpp": [
+          "windows/runner/utils.h"
+        ],
+        "windows/runner/utils.h": [],
+        "windows/runner/win32_window.cpp": [
+          "windows/runner/resource.h",
+          "windows/runner/win32_window.h"
+        ],
+        "windows/runner/win32_window.h": []
+      }
+    }
+  ]
+}

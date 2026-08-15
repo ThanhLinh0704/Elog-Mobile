@@ -387,7 +387,7 @@ class _ExceptionCard extends StatelessWidget {
             if (item.exceptionType == ExceptionType.timeException) ...[
               const SizedBox(height: 6),
               Text(
-                'ETA dự kiến: ${formatTime(item.plannedEta)} · Đến thực tế: ${formatTime(item.actualArrivalTime)}',
+                'ETA dự kiến: ${formatTimeSmart(item.plannedEta)} · Đến thực tế: ${formatTimeSmart(item.actualArrivalTime)}',
                 style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary),
               ),
               if (item.delayMinutes != null)

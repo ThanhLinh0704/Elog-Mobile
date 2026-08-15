@@ -209,6 +209,23 @@ class DriverTripRepository {
     }
   }
 
+  // ── POST /api/v1/driver/trips/{executionId}/stops/{stopId}/arrive ───────────
+  /// Driver taps "Đã đến điểm giao". Must be called before updating any order
+  /// result for that stop (server enforces stop must be PENDING and be the
+  /// next stop in sequence — PREVIOUS_STOP_NOT_DONE otherwise). Marks the
+  /// stop IN_PROGRESS and records the real "actual arrival time" that the web
+  /// dispatcher's "Theo dõi chuyến hàng" screen reads.
+  Future<DriverTripModel> arriveAtStop(int executionId, int stopId) async {
+    try {
+      final response = await _dio
+          .post('/api/v1/driver/trips/$executionId/stops/$stopId/arrive');
+      final body = response.data as Map<String, dynamic>;
+      return DriverTripModel.fromJson(body['data'] as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw parseDioError(e);
+    }
+  }
+
   // ── PUT /api/v1/driver/trips/{executionId}/orders/{orderId}/result ──────────
   /// Update delivery result for a single Order.
   /// Returns updated full DriverTripResponse (server-side state refresh).

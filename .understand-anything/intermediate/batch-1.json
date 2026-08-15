@@ -1,0 +1,730 @@
+{
+  "nodes": [
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "Tài liệu tổng quan cho ELog Driver Mobile App, mô tả hai luồng thực thi chuyến stop-based và FT-09 order-based, kiến trúc thư mục, API backend, tech stack và cách chạy ứng dụng.",
+      "tags": ["documentation", "project-overview", "flutter", "driver-workflow"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:windows/CMakeLists.txt",
+      "type": "document",
+      "name": "CMakeLists.txt",
+      "filePath": "windows/CMakeLists.txt",
+      "summary": "Định nghĩa build CMake cấp project cho bản Windows, thiết lập C++17, các chế độ Debug/Profile/Release, liên kết Flutter runner và quy tắc đóng gói DLL, ICU, native assets cùng AOT library.",
+      "tags": ["build-system", "cmake", "windows", "packaging"],
+      "complexity": "moderate",
+      "languageNotes": "CMake dùng hàm APPLY_STANDARD_SETTINGS để áp dụng nhất quán compile features, warnings và preprocessor definitions cho các target native."
+    },
+    {
+      "id": "document:windows/flutter/CMakeLists.txt",
+      "type": "document",
+      "name": "CMakeLists.txt",
+      "filePath": "windows/flutter/CMakeLists.txt",
+      "summary": "Điều phối các bước build Flutter cho Windows, khai báo DLL và wrapper libraries, rồi tạo target flutter_assemble gọi tool_backend.bat cho từng build configuration.",
+      "tags": ["build-system", "cmake", "flutter", "windows"],
+      "complexity": "moderate",
+      "languageNotes": "Đây là CMake template do Flutter quản lý; custom command dùng phony output để luôn kích hoạt Flutter tool backend."
+    },
+    {
+      "id": "document:windows/runner/CMakeLists.txt",
+      "type": "document",
+      "name": "CMakeLists.txt",
+      "filePath": "windows/runner/CMakeLists.txt",
+      "summary": "Khai báo executable runner Win32, tập hợp các source native và resource, truyền thông tin phiên bản Flutter, rồi liên kết Flutter wrapper cùng dwmapi.",
+      "tags": ["build-system", "cmake", "windows-runner", "native-shell"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:analysis_options.yaml",
+      "type": "config",
+      "name": "analysis_options.yaml",
+      "filePath": "analysis_options.yaml",
+      "summary": "Cấu hình Dart analyzer kế thừa bộ flutter_lints mặc định và để sẵn khu vực tùy chỉnh lint rules cho toàn bộ ứng dụng và test.",
+      "tags": ["configuration", "dart", "linting", "code-quality"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:android/app/src/debug/AndroidManifest.xml",
+      "type": "config",
+      "name": "AndroidManifest.xml",
+      "filePath": "android/app/src/debug/AndroidManifest.xml",
+      "summary": "Manifest overlay cho debug build, cấp quyền INTERNET để Flutter tooling kết nối debugger và hỗ trợ hot reload trong quá trình phát triển.",
+      "tags": ["configuration", "android", "debug", "permissions"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:android/app/src/main/AndroidManifest.xml",
+      "type": "config",
+      "name": "AndroidManifest.xml",
+      "filePath": "android/app/src/main/AndroidManifest.xml",
+      "summary": "Manifest Android chính đăng ký MainActivity làm launcher với Flutter embedding v2, gắn launch/normal themes và khai báo khả năng truy vấn ACTION_PROCESS_TEXT.",
+      "tags": ["configuration", "android", "app-manifest", "entry-point"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:android/app/src/main/res/drawable-v21/launch_background.xml",
+      "type": "config",
+      "name": "launch_background.xml",
+      "filePath": "android/app/src/main/res/drawable-v21/launch_background.xml",
+      "summary": "Drawable splash screen cho Android API 21 trở lên, dùng màu nền theo theme hệ thống trong lúc Flutter render frame đầu tiên.",
+      "tags": ["configuration", "android", "splash-screen", "theme"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:android/app/src/main/res/drawable/launch_background.xml",
+      "type": "config",
+      "name": "launch_background.xml",
+      "filePath": "android/app/src/main/res/drawable/launch_background.xml",
+      "summary": "Drawable splash screen Android mặc định với nền trắng, được LaunchTheme hiển thị trước khi Flutter UI sẵn sàng.",
+      "tags": ["configuration", "android", "splash-screen", "theme"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:android/app/src/main/res/values-night/styles.xml",
+      "type": "config",
+      "name": "styles.xml",
+      "filePath": "android/app/src/main/res/values-night/styles.xml",
+      "summary": "Định nghĩa LaunchTheme và NormalTheme cho Android dark mode, giữ nền cửa sổ tối trong lúc Flutter engine khởi tạo và vận hành.",
+      "tags": ["configuration", "android", "dark-theme", "splash-screen"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:android/app/src/main/res/values/styles.xml",
+      "type": "config",
+      "name": "styles.xml",
+      "filePath": "android/app/src/main/res/values/styles.xml",
+      "summary": "Định nghĩa LaunchTheme và NormalTheme cho Android light mode, nối splash drawable với cửa sổ native trước khi Flutter vẽ giao diện.",
+      "tags": ["configuration", "android", "light-theme", "splash-screen"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:android/app/src/profile/AndroidManifest.xml",
+      "type": "config",
+      "name": "AndroidManifest.xml",
+      "filePath": "android/app/src/profile/AndroidManifest.xml",
+      "summary": "Manifest overlay cho profile build, cấp quyền INTERNET để Flutter tooling kết nối ứng dụng khi đo hiệu năng và chẩn đoán.",
+      "tags": ["configuration", "android", "profiling", "permissions"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:pubspec.yaml",
+      "type": "config",
+      "name": "pubspec.yaml",
+      "filePath": "pubspec.yaml",
+      "summary": "Manifest của package elog_driver, cố định Dart SDK 3.x và khai báo Flutter, Dio, secure storage, Riverpod, GoRouter, map cùng bộ công cụ test và code generation.",
+      "tags": ["configuration", "flutter", "dependencies", "package-manifest"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.metadata",
+      "type": "file",
+      "name": ".metadata",
+      "filePath": ".metadata",
+      "summary": "Metadata do Flutter tool quản lý, ghi revision template stable, loại project app và baseline migration cho root cùng Windows, đồng thời đánh dấu một số tệp unmanaged.",
+      "tags": ["flutter-tooling", "migration", "project-metadata", "configuration"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:android/app/build.gradle.kts",
+      "type": "file",
+      "name": "build.gradle.kts",
+      "filePath": "android/app/build.gradle.kts",
+      "summary": "Kotlin DSL build script cho Android application module, áp dụng Flutter Gradle plugin, Java/Kotlin 17, SDK và version từ Flutter, cùng debug signing cho release hiện tại.",
+      "tags": ["build-system", "gradle", "android", "kotlin-dsl"],
+      "complexity": "simple",
+      "languageNotes": "Script dùng type-safe Kotlin DSL để lấy compileSdk, minSdk, targetSdk và version trực tiếp từ Flutter Gradle extension."
+    },
+    {
+      "id": "file:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "type": "file",
+      "name": "MainActivity.kt",
+      "filePath": "android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "summary": "Android host entry point tối giản của ứng dụng, kế thừa FlutterActivity để chuyển lifecycle và rendering sang Flutter engine.",
+      "tags": ["entry-point", "android", "flutter", "native-shell"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt:MainActivity",
+      "type": "class",
+      "name": "MainActivity",
+      "filePath": "android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "lineRange": [5, 5],
+      "summary": "Activity công khai kế thừa FlutterActivity và làm native launcher cho giao diện Flutter trên Android.",
+      "tags": ["entry-point", "android-activity", "flutter-embedding"],
+      "complexity": "simple",
+      "languageNotes": "Kotlin cho phép khai báo lớp không thân bằng cú pháp một dòng khi toàn bộ hành vi được kế thừa."
+    },
+    {
+      "id": "file:android/build.gradle.kts",
+      "type": "file",
+      "name": "build.gradle.kts",
+      "filePath": "android/build.gradle.kts",
+      "summary": "Gradle Kotlin DSL cấp Android project cấu hình repositories, chuyển build outputs về thư mục build chung, ràng buộc app evaluation và đăng ký clean task.",
+      "tags": ["build-system", "gradle", "android", "multi-project"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:android/gradle.properties",
+      "type": "file",
+      "name": "gradle.properties",
+      "filePath": "android/gradle.properties",
+      "summary": "Thiết lập bộ nhớ JVM cho Gradle và bật AndroidX cho quá trình build Android của ứng dụng Flutter.",
+      "tags": ["build-system", "gradle", "androidx", "jvm"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:android/gradle/wrapper/gradle-wrapper.properties",
+      "type": "file",
+      "name": "gradle-wrapper.properties",
+      "filePath": "android/gradle/wrapper/gradle-wrapper.properties",
+      "summary": "Cấu hình Gradle Wrapper dùng bản phân phối Gradle 8.14 đầy đủ và lưu distribution trong GRADLE_USER_HOME.",
+      "tags": ["build-system", "gradle-wrapper", "version-pinning", "android"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:android/settings.gradle.kts",
+      "type": "file",
+      "name": "settings.gradle.kts",
+      "filePath": "android/settings.gradle.kts",
+      "summary": "Khởi tạo Flutter plugin management từ local.properties, khai báo Android/Kotlin plugin versions và đưa module :app vào Gradle build.",
+      "tags": ["build-system", "gradle", "plugin-management", "android"],
+      "complexity": "simple",
+      "languageNotes": "Kotlin DSL dùng run block để đọc flutter.sdk và fail sớm bằng require khi local.properties thiếu cấu hình."
+    },
+    {
+      "id": "file:integration_test/app_test.dart",
+      "type": "file",
+      "name": "app_test.dart",
+      "filePath": "integration_test/app_test.dart",
+      "summary": "Integration test dựng ứng dụng với Riverpod overrides và fake services để kiểm thử hai hành trình tài xế: hoàn tất chuyến rồi trả xe, và từ chối điểm giao kèm lý do ngoại lệ.",
+      "tags": ["integration-test", "e2e-test", "driver-workflow", "riverpod"],
+      "complexity": "moderate",
+      "languageNotes": "Test dùng WidgetTester cùng ProviderScope overrides để chạy luồng UI end-to-end trên dependency fakes thay vì backend thật."
+    },
+    {
+      "id": "function:integration_test/app_test.dart:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "integration_test/app_test.dart",
+      "lineRange": [10, 187],
+      "summary": "Khởi tạo integration test binding, dựng fake dependencies trước mỗi test và đăng ký hai kịch bản UI bao phủ hoàn tất chuyến lẫn xử lý giao hàng thất bại.",
+      "tags": ["entry-point", "integration-test", "test-suite", "driver-workflow"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/core/constants.dart",
+      "type": "file",
+      "name": "constants.dart",
+      "filePath": "lib/core/constants.dart",
+      "summary": "Cung cấp base URL động theo nền tảng chạy và các khóa chuẩn dùng để lưu access token, refresh token cùng thông tin tài xế.",
+      "tags": ["configuration", "constants", "platform-detection", "authentication"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/core/constants.dart:kBaseUrl",
+      "type": "function",
+      "name": "kBaseUrl",
+      "filePath": "lib/core/constants.dart",
+      "lineRange": [6, 14],
+      "summary": "Chọn localhost cho web/desktop/iOS và địa chỉ loopback 10.0.2.2 cho Android emulator để kết nối Spring Boot API.",
+      "tags": ["configuration", "platform-detection", "api-base-url"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/core/error/exceptions.dart",
+      "type": "file",
+      "name": "exceptions.dart",
+      "filePath": "lib/core/error/exceptions.dart",
+      "summary": "Định nghĩa exception cho lỗi nghiệp vụ API và lỗi mạng, đồng thời chuyển backend error codes thành thông báo tiếng Việt phù hợp với tài xế.",
+      "tags": ["error-handling", "api-error", "localization", "exception"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:lib/core/error/exceptions.dart:ApiBusinessException",
+      "type": "class",
+      "name": "ApiBusinessException",
+      "filePath": "lib/core/error/exceptions.dart",
+      "lineRange": [3, 48],
+      "summary": "Mang HTTP status, backend error code và message, rồi cung cấp userMessage đã bản địa hóa cho các lỗi trạng thái chuyến, điểm giao, phân quyền và validation.",
+      "tags": ["exception", "api-error", "business-rule", "localization"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/core/error/exceptions.dart:ApiBusinessException.userMessage",
+      "type": "function",
+      "name": "userMessage",
+      "filePath": "lib/core/error/exceptions.dart",
+      "lineRange": [18, 47],
+      "summary": "Ánh xạ backend error code sang thông điệp tiếng Việt có thể hiển thị trực tiếp, với fallback về message gốc cho validation hoặc mã chưa biết.",
+      "tags": ["error-mapping", "localization", "business-rule"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:lib/core/error/exceptions.dart:NetworkException",
+      "type": "class",
+      "name": "NetworkException",
+      "filePath": "lib/core/error/exceptions.dart",
+      "lineRange": [50, 56],
+      "summary": "Exception nhẹ bao bọc thông báo lỗi kết nối để tầng gọi xử lý thống nhất với lỗi nghiệp vụ API.",
+      "tags": ["exception", "network-error", "error-handling"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/core/network/dio_client.dart",
+      "type": "file",
+      "name": "dio_client.dart",
+      "filePath": "lib/core/network/dio_client.dart",
+      "summary": "Khởi tạo Dio client với base URL và timeouts chuẩn, tự đính Bearer token, xóa session khi nhận 401 và chuẩn hóa DioException thành exception của ứng dụng.",
+      "tags": ["network-client", "dio", "authentication", "error-handling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/core/network/dio_client.dart:createDioClient",
+      "type": "function",
+      "name": "createDioClient",
+      "filePath": "lib/core/network/dio_client.dart",
+      "lineRange": [7, 36],
+      "summary": "Tạo Dio instance dùng JSON headers và timeouts, đồng thời cài request/error interceptors để quản lý Bearer token và session hết hạn.",
+      "tags": ["factory", "network-client", "authentication", "interceptor"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:lib/core/network/dio_client.dart:parseDioError",
+      "type": "function",
+      "name": "parseDioError",
+      "filePath": "lib/core/network/dio_client.dart",
+      "lineRange": [39, 74],
+      "summary": "Phân loại timeout và connection failure thành NetworkException, hoặc đọc backend error envelope và fallback message để tạo ApiBusinessException.",
+      "tags": ["error-parser", "dio", "serialization", "error-handling"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/core/storage/secure_storage_service.dart",
+      "type": "file",
+      "name": "secure_storage_service.dart",
+      "filePath": "lib/core/storage/secure_storage_service.dart",
+      "summary": "Bao bọc FlutterSecureStorage để lưu đồng thời token và hồ sơ tài xế, truy xuất trạng thái đăng nhập/role và xóa toàn bộ session khi đăng xuất hoặc token hết hạn.",
+      "tags": ["secure-storage", "authentication", "session", "service"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:lib/core/storage/secure_storage_service.dart:SecureStorageService",
+      "type": "class",
+      "name": "SecureStorageService",
+      "filePath": "lib/core/storage/secure_storage_service.dart",
+      "lineRange": [4, 47],
+      "summary": "Service truy cập encrypted shared preferences trên Android, cung cấp API lưu/đọc credential, kiểm tra role DRIVER và dọn sạch session.",
+      "tags": ["service", "secure-storage", "authentication", "session"],
+      "complexity": "moderate",
+      "languageNotes": "Dart Future.wait ghi sáu trường credential song song để giảm thời gian lưu phiên đăng nhập."
+    },
+    {
+      "id": "function:lib/core/storage/secure_storage_service.dart:saveTokens",
+      "type": "function",
+      "name": "saveTokens",
+      "filePath": "lib/core/storage/secure_storage_service.dart",
+      "lineRange": [9, 25],
+      "summary": "Ghi access token, refresh token, username, roles, user ID và full name vào secure storage trong một Future.wait.",
+      "tags": ["secure-storage", "authentication", "serialization"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:README.md",
+      "target": "file:lib/main.dart",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:windows/CMakeLists.txt",
+      "target": "document:windows/flutter/CMakeLists.txt",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:windows/CMakeLists.txt",
+      "target": "document:windows/runner/CMakeLists.txt",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:windows/runner/CMakeLists.txt",
+      "target": "document:windows/flutter/CMakeLists.txt",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:analysis_options.yaml",
+      "target": "file:lib/main.dart",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:analysis_options.yaml",
+      "target": "file:integration_test/app_test.dart",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:android/app/src/debug/AndroidManifest.xml",
+      "target": "file:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:android/app/src/main/AndroidManifest.xml",
+      "target": "file:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:android/app/src/main/AndroidManifest.xml",
+      "target": "config:android/app/src/main/res/values/styles.xml",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:android/app/src/main/AndroidManifest.xml",
+      "target": "config:android/app/src/main/res/values-night/styles.xml",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:android/app/src/main/res/values-night/styles.xml",
+      "target": "config:android/app/src/main/res/drawable-v21/launch_background.xml",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:android/app/src/main/res/values/styles.xml",
+      "target": "config:android/app/src/main/res/drawable/launch_background.xml",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:android/app/src/main/res/values-night/styles.xml",
+      "target": "file:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:android/app/src/main/res/values/styles.xml",
+      "target": "file:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:android/app/src/profile/AndroidManifest.xml",
+      "target": "file:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:pubspec.yaml",
+      "target": "file:lib/main.dart",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:pubspec.yaml",
+      "target": "file:lib/core/network/dio_client.dart",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:pubspec.yaml",
+      "target": "file:lib/core/storage/secure_storage_service.dart",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:android/app/build.gradle.kts",
+      "target": "config:pubspec.yaml",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:android/app/build.gradle.kts",
+      "target": "file:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:android/build.gradle.kts",
+      "target": "file:android/app/build.gradle.kts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:android/build.gradle.kts",
+      "target": "file:android/gradle.properties",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:android/build.gradle.kts",
+      "target": "file:android/gradle/wrapper/gradle-wrapper.properties",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:android/settings.gradle.kts",
+      "target": "file:android/app/build.gradle.kts",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:integration_test/app_test.dart",
+      "target": "file:lib/features/driver_trips/data/models/trip_model.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:integration_test/app_test.dart",
+      "target": "file:lib/main.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:integration_test/app_test.dart",
+      "target": "file:lib/providers.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:integration_test/app_test.dart",
+      "target": "file:test/fakes.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/core/network/dio_client.dart",
+      "target": "file:lib/core/constants.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/core/network/dio_client.dart",
+      "target": "file:lib/core/error/exceptions.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/core/network/dio_client.dart",
+      "target": "file:lib/core/storage/secure_storage_service.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/core/storage/secure_storage_service.dart",
+      "target": "file:lib/core/constants.dart",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "target": "class:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt:MainActivity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:integration_test/app_test.dart",
+      "target": "function:integration_test/app_test.dart:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/core/constants.dart",
+      "target": "function:lib/core/constants.dart:kBaseUrl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/core/error/exceptions.dart",
+      "target": "class:lib/core/error/exceptions.dart:ApiBusinessException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/core/error/exceptions.dart",
+      "target": "function:lib/core/error/exceptions.dart:ApiBusinessException.userMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/core/error/exceptions.dart",
+      "target": "class:lib/core/error/exceptions.dart:NetworkException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/core/network/dio_client.dart",
+      "target": "function:lib/core/network/dio_client.dart:createDioClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/core/network/dio_client.dart",
+      "target": "function:lib/core/network/dio_client.dart:parseDioError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/core/storage/secure_storage_service.dart",
+      "target": "class:lib/core/storage/secure_storage_service.dart:SecureStorageService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/core/storage/secure_storage_service.dart",
+      "target": "function:lib/core/storage/secure_storage_service.dart:saveTokens",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "target": "class:android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt:MainActivity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:integration_test/app_test.dart",
+      "target": "function:integration_test/app_test.dart:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/core/constants.dart",
+      "target": "function:lib/core/constants.dart:kBaseUrl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/core/error/exceptions.dart",
+      "target": "class:lib/core/error/exceptions.dart:ApiBusinessException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/core/error/exceptions.dart",
+      "target": "class:lib/core/error/exceptions.dart:NetworkException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/core/network/dio_client.dart",
+      "target": "function:lib/core/network/dio_client.dart:createDioClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/core/network/dio_client.dart",
+      "target": "function:lib/core/network/dio_client.dart:parseDioError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/core/storage/secure_storage_service.dart",
+      "target": "class:lib/core/storage/secure_storage_service.dart:SecureStorageService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/core/network/dio_client.dart:createDioClient",
+      "target": "function:lib/core/constants.dart:kBaseUrl",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/core/network/dio_client.dart:parseDioError",
+      "target": "class:lib/core/error/exceptions.dart:ApiBusinessException",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:lib/core/network/dio_client.dart:parseDioError",
+      "target": "class:lib/core/error/exceptions.dart:NetworkException",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/main.dart",
+      "target": "file:integration_test/app_test.dart",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/providers.dart",
+      "target": "file:integration_test/app_test.dart",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/features/driver_trips/data/models/trip_model.dart",
+      "target": "file:integration_test/app_test.dart",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

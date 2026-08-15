@@ -1,0 +1,264 @@
+{
+  "projectRoot": "D:\\FULearning\\semester 9\\Elog\\Flutter_app\\Elog-Mobile",
+  "batchFiles": [
+    {
+      "path": "lib/core/theme/app_theme.dart",
+      "language": "dart",
+      "sizeLines": 210,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/core/utils/date_time_utils.dart",
+      "language": "dart",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/core/utils/polyline_decoder.dart",
+      "language": "dart",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/auth/data/auth_service.dart",
+      "language": "dart",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/auth/presentation/login_page.dart",
+      "language": "dart",
+      "sizeLines": 280,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/delivery_rejection/presentation/rejection_bottom_sheet.dart",
+      "language": "dart",
+      "sizeLines": 289,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/action_results.dart",
+      "language": "dart",
+      "sizeLines": 169,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/driver_trip_model.dart",
+      "language": "dart",
+      "sizeLines": 412,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/trip_model.dart",
+      "language": "dart",
+      "sizeLines": 124,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/trip_outcome_model.dart",
+      "language": "dart",
+      "sizeLines": 90,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/trip_progress_model.dart",
+      "language": "dart",
+      "sizeLines": 81,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/trip_stop_model.dart",
+      "language": "dart",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/data/models/update_order_result_request.dart",
+      "language": "dart",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/data/repositories/trip_repository.dart",
+      "language": "dart",
+      "sizeLines": 258,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/pages/my_trips_page.dart",
+      "language": "dart",
+      "sizeLines": 1186,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/pages/trip_detail_page.dart",
+      "language": "dart",
+      "sizeLines": 856,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/pages/trip_map_page.dart",
+      "language": "dart",
+      "sizeLines": 299,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/state/trip_state.dart",
+      "language": "dart",
+      "sizeLines": 598,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/widgets/order_result_bottom_sheet.dart",
+      "language": "dart",
+      "sizeLines": 311,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/widgets/shared_widgets.dart",
+      "language": "dart",
+      "sizeLines": 275,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/driver_trips/presentation/widgets/trip_calendar_dialog.dart",
+      "language": "dart",
+      "sizeLines": 221,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/exceptions/data/models/exception_item_model.dart",
+      "language": "dart",
+      "sizeLines": 123,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/exceptions/data/repositories/exception_repository.dart",
+      "language": "dart",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/exceptions/presentation/pages/my_exceptions_page.dart",
+      "language": "dart",
+      "sizeLines": 492,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/features/exceptions/presentation/state/exception_state.dart",
+      "language": "dart",
+      "sizeLines": 105,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "lib/core/theme/app_theme.dart": [],
+    "lib/core/utils/date_time_utils.dart": [],
+    "lib/core/utils/polyline_decoder.dart": [],
+    "lib/features/auth/data/auth_service.dart": [
+      "lib/core/network/dio_client.dart",
+      "lib/core/storage/secure_storage_service.dart"
+    ],
+    "lib/features/auth/presentation/login_page.dart": [
+      "lib/core/error/exceptions.dart",
+      "lib/core/theme/app_theme.dart",
+      "lib/providers.dart"
+    ],
+    "lib/features/delivery_rejection/presentation/rejection_bottom_sheet.dart": [
+      "lib/features/driver_trips/presentation/widgets/shared_widgets.dart"
+    ],
+    "lib/features/driver_trips/data/models/action_results.dart": [],
+    "lib/features/driver_trips/data/models/driver_trip_model.dart": [],
+    "lib/features/driver_trips/data/models/trip_model.dart": [
+      "lib/features/driver_trips/data/models/trip_stop_model.dart"
+    ],
+    "lib/features/driver_trips/data/models/trip_outcome_model.dart": [],
+    "lib/features/driver_trips/data/models/trip_progress_model.dart": [],
+    "lib/features/driver_trips/data/models/trip_stop_model.dart": [],
+    "lib/features/driver_trips/data/models/update_order_result_request.dart": [
+      "lib/features/driver_trips/data/models/driver_trip_model.dart"
+    ],
+    "lib/features/driver_trips/data/repositories/trip_repository.dart": [
+      "lib/core/network/dio_client.dart",
+      "lib/features/driver_trips/data/models/action_results.dart",
+      "lib/features/driver_trips/data/models/driver_trip_model.dart",
+      "lib/features/driver_trips/data/models/trip_model.dart",
+      "lib/features/driver_trips/data/models/trip_outcome_model.dart",
+      "lib/features/driver_trips/data/models/trip_progress_model.dart",
+      "lib/features/driver_trips/data/models/update_order_result_request.dart"
+    ],
+    "lib/features/driver_trips/presentation/pages/my_trips_page.dart": [
+      "lib/core/theme/app_theme.dart",
+      "lib/features/driver_trips/data/models/driver_trip_model.dart",
+      "lib/features/driver_trips/data/models/trip_model.dart",
+      "lib/features/driver_trips/presentation/pages/trip_detail_page.dart",
+      "lib/features/driver_trips/presentation/pages/trip_map_page.dart",
+      "lib/features/driver_trips/presentation/state/trip_state.dart",
+      "lib/features/driver_trips/presentation/widgets/order_result_bottom_sheet.dart",
+      "lib/features/driver_trips/presentation/widgets/shared_widgets.dart",
+      "lib/features/driver_trips/presentation/widgets/trip_calendar_dialog.dart",
+      "lib/features/exceptions/presentation/pages/my_exceptions_page.dart",
+      "lib/features/profile/presentation/pages/profile_page.dart",
+      "lib/providers.dart"
+    ],
+    "lib/features/driver_trips/presentation/pages/trip_detail_page.dart": [
+      "lib/core/error/exceptions.dart",
+      "lib/core/theme/app_theme.dart",
+      "lib/core/utils/date_time_utils.dart",
+      "lib/features/delivery_rejection/presentation/rejection_bottom_sheet.dart",
+      "lib/features/driver_trips/data/models/trip_stop_model.dart",
+      "lib/features/driver_trips/presentation/pages/trip_map_page.dart",
+      "lib/features/driver_trips/presentation/state/trip_state.dart",
+      "lib/features/driver_trips/presentation/widgets/shared_widgets.dart"
+    ],
+    "lib/features/driver_trips/presentation/pages/trip_map_page.dart": [
+      "lib/core/theme/app_theme.dart",
+      "lib/core/utils/polyline_decoder.dart",
+      "lib/features/driver_trips/data/models/trip_progress_model.dart",
+      "lib/features/driver_trips/presentation/widgets/shared_widgets.dart",
+      "lib/providers.dart"
+    ],
+    "lib/features/driver_trips/presentation/state/trip_state.dart": [
+      "lib/core/error/exceptions.dart",
+      "lib/core/utils/date_time_utils.dart",
+      "lib/features/driver_trips/data/models/action_results.dart",
+      "lib/features/driver_trips/data/models/driver_trip_model.dart",
+      "lib/features/driver_trips/data/models/trip_model.dart",
+      "lib/features/driver_trips/data/models/trip_outcome_model.dart",
+      "lib/features/driver_trips/data/models/trip_stop_model.dart",
+      "lib/features/driver_trips/data/models/update_order_result_request.dart",
+      "lib/features/driver_trips/data/repositories/trip_repository.dart",
+      "lib/providers.dart"
+    ],
+    "lib/features/driver_trips/presentation/widgets/order_result_bottom_sheet.dart": [
+      "lib/features/driver_trips/data/models/driver_trip_model.dart",
+      "lib/features/driver_trips/data/models/update_order_result_request.dart"
+    ],
+    "lib/features/driver_trips/presentation/widgets/shared_widgets.dart": [
+      "lib/core/theme/app_theme.dart"
+    ],
+    "lib/features/driver_trips/presentation/widgets/trip_calendar_dialog.dart": [
+      "lib/features/driver_trips/presentation/state/trip_state.dart"
+    ],
+    "lib/features/exceptions/data/models/exception_item_model.dart": [],
+    "lib/features/exceptions/data/repositories/exception_repository.dart": [
+      "lib/core/network/dio_client.dart",
+      "lib/features/exceptions/data/models/exception_item_model.dart"
+    ],
+    "lib/features/exceptions/presentation/pages/my_exceptions_page.dart": [
+      "lib/core/theme/app_theme.dart",
+      "lib/core/utils/date_time_utils.dart",
+      "lib/features/driver_trips/presentation/widgets/shared_widgets.dart",
+      "lib/features/exceptions/data/models/exception_item_model.dart",
+      "lib/features/exceptions/presentation/state/exception_state.dart"
+    ],
+    "lib/features/exceptions/presentation/state/exception_state.dart": [
+      "lib/core/error/exceptions.dart",
+      "lib/core/utils/date_time_utils.dart",
+      "lib/features/exceptions/data/models/exception_item_model.dart",
+      "lib/features/exceptions/data/repositories/exception_repository.dart",
+      "lib/providers.dart"
+    ]
+  }
+}

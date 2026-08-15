@@ -4,6 +4,7 @@ import 'package:elog_driver/features/driver_trips/data/repositories/trip_reposit
 import 'package:elog_driver/features/driver_trips/data/models/trip_model.dart';
 import 'package:elog_driver/features/driver_trips/data/models/driver_trip_model.dart';
 import 'package:elog_driver/features/driver_trips/data/models/trip_outcome_model.dart';
+import 'package:elog_driver/features/driver_trips/data/models/action_results.dart';
 import 'package:elog_driver/features/exceptions/data/repositories/exception_repository.dart';
 import 'package:elog_driver/features/exceptions/data/models/exception_item_model.dart';
 import 'package:dio/dio.dart';
@@ -123,6 +124,40 @@ class FakeTripRepository implements TripRepository {
   }
 
   @override
+  Future<TripModel> getTripDetail(int tripId) async {
+    if (shouldFail) {
+      throw Exception('Failed to load trip detail');
+    }
+    return mockTrips.firstWhere((t) => t.tripId == tripId,
+        orElse: () => TripModel(tripId: tripId, status: 'DISPATCHED', deliveryDate: '2026-08-15'));
+  }
+
+  @override
+  Future<StartTripResult> startTrip(int tripId) async {
+    if (shouldFail) throw Exception('Failed to start trip');
+    return StartTripResult(tripId: tripId, status: 'IN_PROGRESS');
+  }
+
+  @override
+  Future<ArriveStopResult> arriveAtStop(int tripStopId) async {
+    if (shouldFail) throw Exception('Failed to arrive at stop');
+    return ArriveStopResult(tripStopId: tripStopId, status: 'IN_PROGRESS');
+  }
+
+  @override
+  Future<CompleteStopResult> completeStop(int tripStopId) async {
+    if (shouldFail) throw Exception('Failed to complete stop');
+    return CompleteStopResult(tripStopId: tripStopId, status: 'COMPLETED');
+  }
+
+  @override
+  Future<RejectDeliveryResult> rejectDelivery(
+      int tripStopId, RejectDeliveryRequest request) async {
+    if (shouldFail) throw Exception('Failed to reject delivery');
+    return RejectDeliveryResult(exceptionId: 1, tripStopId: tripStopId, exceptionType: 'DELIVERY_REJECTION', tripStopStatus: 'EXCEPTION');
+  }
+
+  @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
@@ -147,7 +182,48 @@ class FakeDriverTripRepository implements DriverTripRepository {
   }
 
   @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+  Future<DriverTripModel> startExecution(int executionId) async {
+    if (shouldFail) throw Exception('Failed to start execution');
+    if (mockActiveTrip != null) {
+      mockActiveTrip = mockActiveTrip!.copyWith(status: ExecutionStatus.inProgress);
+    }
+    return mockActiveTrip ?? DriverTripModel(executionId: executionId, tripId: 100, tripCode: 'TRIP-100', deliveryDate: '2026-08-15', status: ExecutionStatus.inProgress);
+  }
+
+  @override
+  Future<DriverTripModel> updateOrderResult(
+    int executionId,
+    int orderId,
+    dynamic request,
+  ) async {
+    if (shouldFail) throw Exception('Failed to update order result');
+    return mockActiveTrip ?? DriverTripModel(executionId: executionId, tripId: 100, tripCode: 'TRIP-100', deliveryDate: '2026-08-15', status: ExecutionStatus.inProgress);
+  }
+
+  @override
+  Future<TripOutcomeModel> completeExecution(int executionId) async {
+    if (shouldFail) throw Exception('Failed to complete execution');
+    return TripOutcomeModel(
+      id: 1,
+      executionId: executionId,
+      tripId: 100,
+      tripCode: 'TRIP-100',
+      totalOrders: 5,
+      deliveredCount: 4,
+      failedCount: 1,
+      partialCount: 0,
+      status: TripOutcomeStatus.submitted,
+    );
+  }
+
+  @override
+  Future<DriverTripModel> returnToWarehouse(int executionId) async {
+    if (shouldFail) throw Exception('Failed to return to warehouse');
+    if (mockActiveTrip != null) {
+      mockActiveTrip = mockActiveTrip!.copyWith(status: ExecutionStatus.completed);
+    }
+    return mockActiveTrip ?? DriverTripModel(executionId: executionId, tripId: 100, tripCode: 'TRIP-100', deliveryDate: '2026-08-15', status: ExecutionStatus.completed);
+  }
 }
 
 class FakeExceptionRepository implements ExceptionRepository {

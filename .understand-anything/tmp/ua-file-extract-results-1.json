@@ -1,0 +1,361 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 201,
+      "nonEmptyLines": 160,
+      "sections": [
+        {
+          "heading": "🚚 ELog Driver Mobile App",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "📌 Giới thiệu (Overview)",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "🌟 Tính năng chính (Key Features)",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "🛠️ Công nghệ Sử dụng (Tech Stack)",
+          "level": 2,
+          "line": 52
+        },
+        {
+          "heading": "📁 Cấu trúc Dự án (Project Structure)",
+          "level": 2,
+          "line": 71
+        },
+        {
+          "heading": "🔗 Danh sách API Kết nối (API Endpoints)",
+          "level": 2,
+          "line": 117
+        },
+        {
+          "heading": "Auth",
+          "level": 3,
+          "line": 121
+        },
+        {
+          "heading": "Chuyến hàng theo ngày — luồng cũ (`TripRepository`)",
+          "level": 3,
+          "line": 127
+        },
+        {
+          "heading": "Chuyến hoạt động hôm nay — FT-09 (`DriverTripRepository`)",
+          "level": 3,
+          "line": 139
+        },
+        {
+          "heading": "Ngoại lệ",
+          "level": 3,
+          "line": 149
+        },
+        {
+          "heading": "🚀 Hướng dẫn Cài đặt & Khởi chạy (Getting Started)",
+          "level": 2,
+          "line": 156
+        },
+        {
+          "heading": "1. Yêu cầu môi trường",
+          "level": 3,
+          "line": 158
+        },
+        {
+          "heading": "2. Cài đặt Dependencies",
+          "level": 3,
+          "line": 164
+        },
+        {
+          "heading": "3. Base URL Backend",
+          "level": 3,
+          "line": 169
+        },
+        {
+          "heading": "4. Khởi chạy",
+          "level": 3,
+          "line": 185
+        },
+        {
+          "heading": "📝 Tài khoản Thử nghiệm (Test Account)",
+          "level": 2,
+          "line": 192
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 16
+      }
+    },
+    {
+      "path": "windows/CMakeLists.txt",
+      "language": "txt",
+      "fileCategory": "docs",
+      "totalLines": 108,
+      "nonEmptyLines": 89,
+      "metrics": {}
+    },
+    {
+      "path": "windows/flutter/CMakeLists.txt",
+      "language": "txt",
+      "fileCategory": "docs",
+      "totalLines": 109,
+      "nonEmptyLines": 98,
+      "metrics": {}
+    },
+    {
+      "path": "windows/runner/CMakeLists.txt",
+      "language": "txt",
+      "fileCategory": "docs",
+      "totalLines": 40,
+      "nonEmptyLines": 34,
+      "metrics": {}
+    },
+    {
+      "path": "analysis_options.yaml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 28,
+      "nonEmptyLines": 25,
+      "sections": [
+        {
+          "heading": "include",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "linter",
+          "level": 1,
+          "line": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "android/app/src/debug/AndroidManifest.xml",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "metrics": {}
+    },
+    {
+      "path": "android/app/src/main/AndroidManifest.xml",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 45,
+      "nonEmptyLines": 44,
+      "metrics": {}
+    },
+    {
+      "path": "android/app/src/main/res/drawable-v21/launch_background.xml",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 12,
+      "nonEmptyLines": 11,
+      "metrics": {}
+    },
+    {
+      "path": "android/app/src/main/res/drawable/launch_background.xml",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 12,
+      "nonEmptyLines": 11,
+      "metrics": {}
+    },
+    {
+      "path": "android/app/src/main/res/values-night/styles.xml",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 18,
+      "nonEmptyLines": 17,
+      "metrics": {}
+    },
+    {
+      "path": "android/app/src/main/res/values/styles.xml",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 18,
+      "nonEmptyLines": 17,
+      "metrics": {}
+    },
+    {
+      "path": "android/app/src/profile/AndroidManifest.xml",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "metrics": {}
+    },
+    {
+      "path": "pubspec.yaml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 49,
+      "nonEmptyLines": 36,
+      "sections": [
+        {
+          "heading": "name",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "description",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "publish_to",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "version",
+          "level": 1,
+          "line": 6
+        },
+        {
+          "heading": "environment",
+          "level": 1,
+          "line": 8
+        },
+        {
+          "heading": "dependencies",
+          "level": 1,
+          "line": 11
+        },
+        {
+          "heading": "dev_dependencies",
+          "level": 1,
+          "line": 39
+        },
+        {
+          "heading": "flutter",
+          "level": 1,
+          "line": 48
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": ".metadata",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 25,
+      "metrics": {}
+    },
+    {
+      "path": "android/app/build.gradle.kts",
+      "language": "kotlin",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 38,
+      "metrics": {}
+    },
+    {
+      "path": "android/app/src/main/kotlin/com/elog/elog_driver/MainActivity.kt",
+      "language": "kotlin",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 3,
+      "metrics": {}
+    },
+    {
+      "path": "android/build.gradle.kts",
+      "language": "kotlin",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 21,
+      "metrics": {}
+    },
+    {
+      "path": "android/gradle.properties",
+      "language": "properties",
+      "fileCategory": "code",
+      "totalLines": 2,
+      "nonEmptyLines": 2,
+      "metrics": {}
+    },
+    {
+      "path": "android/gradle/wrapper/gradle-wrapper.properties",
+      "language": "properties",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 5,
+      "metrics": {}
+    },
+    {
+      "path": "android/settings.gradle.kts",
+      "language": "kotlin",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 22,
+      "metrics": {}
+    },
+    {
+      "path": "integration_test/app_test.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 187,
+      "nonEmptyLines": 154,
+      "metrics": {}
+    },
+    {
+      "path": "lib/core/constants.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 20,
+      "metrics": {}
+    },
+    {
+      "path": "lib/core/error/exceptions.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 51,
+      "metrics": {}
+    },
+    {
+      "path": "lib/core/network/dio_client.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 74,
+      "nonEmptyLines": 67,
+      "metrics": {}
+    },
+    {
+      "path": "lib/core/storage/secure_storage_service.dart",
+      "language": "dart",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 41,
+      "metrics": {}
+    }
+  ]
+}

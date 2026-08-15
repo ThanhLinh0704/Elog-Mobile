@@ -235,6 +235,12 @@ class DriverStopModel {
   final String? plannedEta; // "HH:mm:ss"
   final String? closingTime; // "HH:mm:ss"
   final StopAggregatedStatus aggregatedStatus;
+  // "PENDING" | "ARRIVED" — whether the driver has tapped "Đã đến điểm giao"
+  // for this stop yet. Order-result updates are locked client-side until this
+  // is "ARRIVED" (BUG-STOP-TIME-01: without an explicit arrival marker, the
+  // web dispatcher view never got a real "actual arrival time" for the stop).
+  final String arrivalStatus;
+  final String? actualArrivalTime;
   final List<DriverOrderModel> orders;
 
   const DriverStopModel({
@@ -246,8 +252,12 @@ class DriverStopModel {
     this.plannedEta,
     this.closingTime,
     required this.aggregatedStatus,
+    this.arrivalStatus = 'PENDING',
+    this.actualArrivalTime,
     this.orders = const [],
   });
+
+  bool get hasArrived => arrivalStatus == 'ARRIVED';
 
   factory DriverStopModel.fromJson(Map<String, dynamic> json) {
     final ordersJson = json['orders'] as List<dynamic>? ?? [];
@@ -261,6 +271,8 @@ class DriverStopModel {
       closingTime: json['closingTime'] as String?,
       aggregatedStatus: StopAggregatedStatus.fromJson(
           json['aggregatedStatus'] as String? ?? 'PENDING'),
+      arrivalStatus: json['arrivalStatus'] as String? ?? 'PENDING',
+      actualArrivalTime: json['actualArrivalTime'] as String?,
       orders: ordersJson
           .map((o) => DriverOrderModel.fromJson(o as Map<String, dynamic>))
           .toList(),

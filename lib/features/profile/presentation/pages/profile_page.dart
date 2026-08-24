@@ -254,7 +254,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: AppTheme.primary.withOpacity(0.06),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

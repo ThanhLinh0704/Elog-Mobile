@@ -1,4 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Required for all API calls (Dio HTTP client) — without it, release
+         builds fail to reach the network even though debug/profile work,
+         since those variants get INTERNET only from Flutter's own
+         debug/profile manifest overlay, which isn't merged into release. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="elog_driver"
         android:name="${applicationName}"

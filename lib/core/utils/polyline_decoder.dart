@@ -1,8 +1,6 @@
 import 'package:latlong2/latlong.dart';
 
 /// Decodes an Encoded Polyline string (Google / Goong.io format, precision 5)
-/// into a list of LatLng points. Mirrors ELog-FE's src/utils/polyline.ts so
-/// both clients read the same `routePolyline` field identically.
 List<LatLng> decodePolyline(String encoded) {
   if (encoded.isEmpty) return [];
   final points = <LatLng>[];

@@ -94,7 +94,7 @@ class _RejectionBottomSheetState extends State<_RejectionBottomSheet> {
       content:
           'Sau khi xác nhận, hàng sẽ được giữ lại trên xe và xử lý trả về kho sau khi kết thúc chuyến.',
       confirmLabel: 'Xác nhận',
-      confirmColor: Colors.red.shade700,
+      confirmColor: AppTheme.statusException,
     );
     if (!confirmed) return;
 
@@ -211,7 +211,7 @@ class _RejectionBottomSheetState extends State<_RejectionBottomSheet> {
                     child: ElevatedButton(
                       onPressed: _isSubmitting ? null : _submit,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red.shade700,
+                        backgroundColor: AppTheme.statusException,
                       ),
                       child: _isSubmitting
                           ? const SizedBox(

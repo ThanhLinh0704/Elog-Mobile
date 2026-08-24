@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../state/trip_state.dart';
 
 /// Month calendar dialog for picking a delivery date. Days that have at
@@ -63,6 +64,7 @@ class _TripCalendarDialogState extends ConsumerState<TripCalendarDialog> {
     final weekCount = ((leadingBlanks + daysInMonth) / 7).ceil();
 
     return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -136,11 +138,10 @@ class _TripCalendarDialogState extends ConsumerState<TripCalendarDialog> {
                         margin: const EdgeInsets.symmetric(vertical: 2),
                         padding: const EdgeInsets.symmetric(vertical: 6),
                         decoration: BoxDecoration(
-                          color:
-                              isSelected ? const Color(0xFF1677FF) : null,
+                          color: isSelected ? AppTheme.primary : null,
                           borderRadius: BorderRadius.circular(20),
                           border: (isToday && !isSelected)
-                              ? Border.all(color: const Color(0xFF1677FF))
+                              ? Border.all(color: AppTheme.primary)
                               : null,
                         ),
                         child: Column(
@@ -150,7 +151,7 @@ class _TripCalendarDialogState extends ConsumerState<TripCalendarDialog> {
                               style: TextStyle(
                                 color: isSelected
                                     ? Colors.white
-                                    : Colors.black87,
+                                    : AppTheme.textPrimary,
                                 fontWeight: (isToday || isSelected)
                                     ? FontWeight.bold
                                     : FontWeight.normal,
@@ -165,8 +166,8 @@ class _TripCalendarDialogState extends ConsumerState<TripCalendarDialog> {
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: allCompleted
-                                            ? Colors.green
-                                            : Colors.red,
+                                            ? AppTheme.statusCompleted
+                                            : AppTheme.statusException,
                                       ),
                                     )
                                   : null,
@@ -183,9 +184,9 @@ class _TripCalendarDialogState extends ConsumerState<TripCalendarDialog> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _legendDot(Colors.red, 'Chưa hoàn thành'),
+                _legendDot(AppTheme.statusException, 'Chưa hoàn thành'),
                 const SizedBox(width: 16),
-                _legendDot(Colors.green, 'Đã hoàn thành'),
+                _legendDot(AppTheme.statusCompleted, 'Đã hoàn thành'),
               ],
             ),
             const SizedBox(height: 4),

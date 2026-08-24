@@ -21,8 +21,28 @@ class MyTripsPage extends ConsumerStatefulWidget {
   ConsumerState<MyTripsPage> createState() => _MyTripsPageState();
 }
 
-class _MyTripsPageState extends ConsumerState<MyTripsPage> {
+class _MyTripsPageState extends ConsumerState<MyTripsPage>
+    with TickerProviderStateMixin {
   DateTime _selectedDate = DateTime.now();
+
+  // Drives the staggered fade+slide-in of trip list cards — replayed on
+  // every date change so switching days feels alive, not just a data swap.
+  late final AnimationController _listAnimController;
+
+  @override
+  void initState() {
+    super.initState();
+    _listAnimController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _listAnimController.dispose();
+    super.dispose();
+  }
 
   bool get _isToday {
     final now = DateTime.now();
@@ -43,6 +63,7 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
   }
 
   void _onDateChanged(DateTime newDate) {
+    _listAnimController.reset();
     setState(() {
       _selectedDate = newDate;
     });
@@ -136,7 +157,7 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
                 ),
               ],
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Row(
               children: [
                 IconButton(
@@ -267,8 +288,8 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
               const SizedBox(height: 4),
               Text(
                 'Đã giao: ${o.deliveredCount}/${o.totalOrders} đơn',
-                style: const TextStyle(
-                    fontSize: 15, color: AppTheme.textPrimary),
+                style:
+                    const TextStyle(fontSize: 15, color: AppTheme.textPrimary),
               ),
               if (o.failedCount > 0)
                 Text(
@@ -456,88 +477,116 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
       itemBuilder: (ctx, i) {
         final t = trips[i];
         final statusColor = _getTripStatusBgColor(t.status);
-        return Card(
-          child: InkWell(
-            borderRadius: BorderRadius.circular(16),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => TripDetailPage(tripId: t.tripId),
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(14),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: statusColor.withOpacity(0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(AppTheme.tripStatusIcon(t.status),
-                        color: statusColor, size: 22),
+
+        // Staggered entrance: each card fades + slides in slightly after
+        // the one before it, capped to the first 10 so a long list doesn't
+        // drag the animation out.
+        final count = trips.length > 10 ? 10 : trips.length;
+        final cardAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+          CurvedAnimation(
+            parent: _listAnimController,
+            curve: Interval(
+              (1 / count) * (i < count ? i : count - 1),
+              1.0,
+              curve: Curves.fastOutSlowIn,
+            ),
+          ),
+        );
+        _listAnimController.forward();
+
+        return AnimatedBuilder(
+          animation: cardAnimation,
+          builder: (context, child) => Opacity(
+            opacity: cardAnimation.value,
+            child: Transform.translate(
+              offset: Offset(0, 20 * (1 - cardAnimation.value)),
+              child: child,
+            ),
+          ),
+          child: Card(
+            child: InkWell(
+              borderRadius: BorderRadius.circular(16),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => TripDetailPage(tripId: t.tripId),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                t.fixedRouteCode ?? 'TRIP-${t.tripId}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            StatusBadge(status: t.status),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            const Icon(Icons.directions_car_outlined,
-                                size: 14, color: AppTheme.textMuted),
-                            const SizedBox(width: 4),
-                            Text(t.vehicle?.plateNumber ?? 'Chưa gán xe',
-                                style: const TextStyle(
-                                    fontSize: 12.5,
-                                    color: AppTheme.textSecondary)),
-                            const SizedBox(width: 12),
-                            const Icon(Icons.location_on_outlined,
-                                size: 14, color: AppTheme.textMuted),
-                            const SizedBox(width: 4),
-                            Text('${t.tripStopCount} điểm dừng',
-                                style: const TextStyle(
-                                    fontSize: 12.5,
-                                    color: AppTheme.textSecondary)),
-                          ],
-                        ),
-                        if (t.plannedDepartureTime != null) ...[
-                          const SizedBox(height: 4),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: statusColor.withOpacity(0.12),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(AppTheme.tripStatusIcon(t.status),
+                          color: statusColor, size: 22),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Row(
                             children: [
-                              const Icon(Icons.schedule_outlined,
+                              Expanded(
+                                child: Text(
+                                  t.fixedRouteCode ?? 'TRIP-${t.tripId}',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              StatusBadge(status: t.status),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              const Icon(Icons.directions_car_outlined,
                                   size: 14, color: AppTheme.textMuted),
                               const SizedBox(width: 4),
-                              Text('Xuất phát: ${t.plannedDepartureTime}',
+                              Text(t.vehicle?.plateNumber ?? 'Chưa gán xe',
+                                  style: const TextStyle(
+                                      fontSize: 12.5,
+                                      color: AppTheme.textSecondary)),
+                              const SizedBox(width: 12),
+                              const Icon(Icons.location_on_outlined,
+                                  size: 14, color: AppTheme.textMuted),
+                              const SizedBox(width: 4),
+                              Text('${t.tripStopCount} điểm dừng',
                                   style: const TextStyle(
                                       fontSize: 12.5,
                                       color: AppTheme.textSecondary)),
                             ],
                           ),
+                          if (t.plannedDepartureTime != null) ...[
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                const Icon(Icons.schedule_outlined,
+                                    size: 14, color: AppTheme.textMuted),
+                                const SizedBox(width: 4),
+                                Text('Xuất phát: ${t.plannedDepartureTime}',
+                                    style: const TextStyle(
+                                        fontSize: 12.5,
+                                        color: AppTheme.textSecondary)),
+                              ],
+                            ),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
-                  ),
-                  const Icon(Icons.chevron_right, color: AppTheme.textMuted),
-                ],
+                    const Icon(Icons.chevron_right, color: AppTheme.textMuted),
+                  ],
+                ),
               ),
             ),
           ),
@@ -622,7 +671,8 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
                     const SizedBox(width: 4),
                     Text(
                       trip.plateNumber ?? 'Chưa gán xe',
-                      style: const TextStyle(color: Colors.white70, fontSize: 13),
+                      style:
+                          const TextStyle(color: Colors.white70, fontSize: 13),
                     ),
                     const SizedBox(width: 12),
                     const Icon(Icons.event_outlined,
@@ -630,7 +680,8 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
                     const SizedBox(width: 4),
                     Text(
                       trip.deliveryDate,
-                      style: const TextStyle(color: Colors.white70, fontSize: 13),
+                      style:
+                          const TextStyle(color: Colors.white70, fontSize: 13),
                     ),
                   ],
                 ),
@@ -657,8 +708,11 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
                     value: progress,
                     minHeight: 8,
                     backgroundColor: Colors.white24,
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                        Colors.greenAccent),
+                    // Lighter tint of AppTheme.statusCompleted — keeps the
+                    // "completed" semantic color family consistent while
+                    // staying legible on the dark header gradient.
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Color(0xFF4ADE80)),
                   ),
                 ),
               ],
@@ -683,8 +737,8 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
                     : const Icon(Icons.play_arrow_rounded, size: 24),
                 label: Text(
                   state.isStarting ? 'Đang xử lý...' : 'Bắt đầu chuyến',
-                  style:
-                      const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.statusInProgress,
@@ -713,8 +767,8 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
                     : const Icon(Icons.check_circle_outline, size: 24),
                 label: Text(
                   state.isCompleting ? 'Đang xử lý...' : 'Hoàn thành chuyến',
-                  style:
-                      const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.statusCompleted,
@@ -971,7 +1025,8 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
                       ),
                     ),
                   ),
-                ] else if (stop.hasArrived && stop.actualArrivalTime != null) ...[
+                ] else if (stop.hasArrived &&
+                    stop.actualArrivalTime != null) ...[
                   const SizedBox(height: 6),
                   Row(
                     children: [
@@ -1016,8 +1071,8 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
                                     fontWeight: FontWeight.bold, fontSize: 13)),
                             _OutlinePill(
                               label: order.deliveryStatus.label,
-                              color: _getOrderBorderColor(
-                                  order.deliveryStatus, solid: true),
+                              color: _getOrderBorderColor(order.deliveryStatus,
+                                  solid: true),
                               dense: true,
                             ),
                           ],
@@ -1111,8 +1166,7 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
     final confirmed = await showConfirmDialog(
       context,
       title: 'Đã đến điểm giao',
-      content:
-          'Xác nhận bạn đã đến "${stop.storeCode} - ${stop.storeName}"?',
+      content: 'Xác nhận bạn đã đến "${stop.storeCode} - ${stop.storeName}"?',
       confirmLabel: 'Xác nhận',
       confirmColor: AppTheme.primary,
     );
@@ -1182,7 +1236,8 @@ class _MyTripsPageState extends ConsumerState<MyTripsPage> {
     }
   }
 
-  Color _getTripStatusBgColor(String status) => AppTheme.tripStatusColor(status);
+  Color _getTripStatusBgColor(String status) =>
+      AppTheme.tripStatusColor(status);
 
   Color _getOrderBgColor(OrderDeliveryStatus status) {
     switch (status) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/theme/app_theme.dart';
 import '../../data/models/driver_trip_model.dart';
 import '../../data/models/update_order_result_request.dart';
 
@@ -115,7 +116,7 @@ class _OrderResultBottomSheetState extends State<OrderResultBottomSheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: AppTheme.surfaceVariant,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -125,7 +126,7 @@ class _OrderResultBottomSheetState extends State<OrderResultBottomSheet> {
             // Title
             Row(
               children: [
-                const Icon(Icons.fact_check, color: Color(0xFF1677FF)),
+                const Icon(Icons.fact_check, color: AppTheme.primary),
                 const SizedBox(width: 8),
                 Text(
                   'Cập nhật kết quả: ${widget.orderRef}',
@@ -148,21 +149,21 @@ class _OrderResultBottomSheetState extends State<OrderResultBottomSheet> {
             _buildStatusTile(
               status: OrderDeliveryStatus.delivered,
               label: 'Đã giao thành công',
-              color: Colors.green,
+              color: AppTheme.statusCompleted,
               icon: Icons.check_circle_outline,
             ),
             const SizedBox(height: 8),
             _buildStatusTile(
               status: OrderDeliveryStatus.partiallyDelivered,
               label: 'Giao một phần',
-              color: Colors.orange,
+              color: AppTheme.warning,
               icon: Icons.warning_amber_outlined,
             ),
             const SizedBox(height: 8),
             _buildStatusTile(
               status: OrderDeliveryStatus.failed,
               label: 'Giao thất bại',
-              color: Colors.red,
+              color: AppTheme.statusException,
               icon: Icons.cancel_outlined,
             ),
 
@@ -222,13 +223,15 @@ class _OrderResultBottomSheetState extends State<OrderResultBottomSheet> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.red[50],
+                  color: AppTheme.statusException.withOpacity(0.08),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.red[200]!),
+                  border:
+                      Border.all(color: AppTheme.statusException.withOpacity(0.3)),
                 ),
                 child: Text(
                   _error!,
-                  style: TextStyle(color: Colors.red[700], fontSize: 13),
+                  style: const TextStyle(
+                      color: AppTheme.statusException, fontSize: 13),
                 ),
               ),
             ],
@@ -239,7 +242,7 @@ class _OrderResultBottomSheetState extends State<OrderResultBottomSheet> {
             ElevatedButton(
               onPressed: _isSubmitting ? null : _handleSubmit,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1677FF),
+                backgroundColor: AppTheme.primary,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -285,10 +288,12 @@ class _OrderResultBottomSheetState extends State<OrderResultBottomSheet> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? color.withOpacity(0.1) : Colors.grey[50],
+          color: isSelected
+              ? color.withOpacity(0.1)
+              : AppTheme.surfaceVariant.withOpacity(0.3),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: isSelected ? color : Colors.grey[300]!,
+            color: isSelected ? color : AppTheme.surfaceVariant,
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -300,7 +305,7 @@ class _OrderResultBottomSheetState extends State<OrderResultBottomSheet> {
               label,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: isSelected ? color : Colors.black87,
+                color: isSelected ? color : AppTheme.textPrimary,
               ),
             ),
           ],

@@ -100,14 +100,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     child: Column(
                       children: [
                         Container(
-                          width: 72,
-                          height: 72,
+                          width: 80,
+                          height: 80,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(18),
+                            borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                                 color: Colors.white.withOpacity(0.4)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white.withOpacity(0.08),
+                                blurRadius: 16,
+                                spreadRadius: 2,
+                              ),
+                            ],
                           ),
                           child: const Icon(
                             Icons.local_shipping_rounded,
@@ -115,7 +122,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             size: 40,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 24),
                         Text(
                           'ELog Driver',
                           style: Theme.of(context)
@@ -124,6 +131,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               ?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
+                                letterSpacing: -0.5,
                               ),
                           textAlign: TextAlign.center,
                         ),
@@ -139,12 +147,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 32),
 
-                  // ── Form card ─────────────────────────────────────────
+                  // ── Form card (shadow tinted to brand color instead of
+                  // flat black — softer, more intentional depth) ──────────
                   Card(
-                    elevation: 8,
-                    shadowColor: Colors.black.withOpacity(0.25),
+                    elevation: 3,
+                    shadowColor: AppTheme.primary.withOpacity(0.25),
                     child: Padding(
                     padding: const EdgeInsets.all(24),
                     child: Form(
@@ -238,21 +247,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           const SizedBox(height: 24),
 
                           // Login button
-                          ElevatedButton(
+                          ElevatedButton.icon(
                             onPressed: _isLoading ? null : _submit,
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(double.infinity, 52),
                             ),
-                            child: _isLoading
+                            icon: _isLoading
                                 ? const SizedBox(
-                                    width: 24,
-                                    height: 24,
+                                    width: 20,
+                                    height: 20,
                                     child: CircularProgressIndicator(
                                       color: Colors.white,
                                       strokeWidth: 2.5,
                                     ),
                                   )
-                                : const Text('Đăng nhập'),
+                                : const Icon(Icons.login_rounded, size: 20),
+                            label: Text(
+                                _isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'),
                           ),
                         ],
                       ),
@@ -261,13 +272,33 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
                 const SizedBox(height: 24),
 
-                  // Version note
-                  Text(
-                    'Chỉ dành cho tài khoản DRIVER',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppTheme.textMuted,
-                        ),
-                    textAlign: TextAlign.center,
+                  // Version note — small badge instead of bare text, so the
+                  // screen ends on a deliberate, confident note (not an
+                  // afterthought caption).
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: AppTheme.surfaceVariant.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.verified_user_outlined,
+                              size: 14, color: AppTheme.textMuted),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Chỉ dành cho tài khoản DRIVER',
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: AppTheme.textMuted,
+                                    ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

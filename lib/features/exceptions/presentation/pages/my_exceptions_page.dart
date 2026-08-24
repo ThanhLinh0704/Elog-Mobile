@@ -78,7 +78,7 @@ class _MyExceptionsPageState extends ConsumerState<MyExceptionsPage> {
                 ),
               ],
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Row(
               children: [
                 IconButton(

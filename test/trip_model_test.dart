@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:elog_driver/features/driver_trips/data/models/trip_model.dart';
-import 'package:elog_driver/features/driver_trips/data/models/trip_stop_model.dart';
 
 void main() {
   group('TripModel JSON Parsing Tests', () {

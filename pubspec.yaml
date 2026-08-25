@@ -45,5 +45,9 @@ dev_dependencies:
   build_runner: ^2.4.9
   riverpod_generator: ^2.4.0
 
+dependency_overrides:
+  path_provider_foundation: 2.4.0
+  flutter_secure_storage_macos: 3.0.0
+
 flutter:
   uses-material-design: true

@@ -79,6 +79,7 @@ class AuthNotifier extends StateNotifier<AuthSession> {
       final isDriver = await _storage.isDriver();
       final username = await _storage.getUsername();
       final fullName = await _storage.getFullName();
+      if (!mounted) return;
       state = AuthSession(
         isLoggedIn: true,
         isDriver: isDriver,
@@ -96,6 +97,7 @@ class AuthNotifier extends StateNotifier<AuthSession> {
     final roles = (result['roles'] as List<String>?) ?? [];
     final isDriver = roles.contains('DRIVER');
     final uname = result['username'] as String? ?? username;
+    if (!mounted) return;
     state = AuthSession(
       isLoggedIn: true,
       isDriver: isDriver,

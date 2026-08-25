@@ -7,7 +7,6 @@ import 'package:elog_driver/features/driver_trips/data/models/trip_outcome_model
 import 'package:elog_driver/features/driver_trips/data/models/action_results.dart';
 import 'package:elog_driver/features/exceptions/data/repositories/exception_repository.dart';
 import 'package:elog_driver/features/exceptions/data/models/exception_item_model.dart';
-import 'package:dio/dio.dart';
 
 
 class FakeSecureStorage implements SecureStorageService {
@@ -69,12 +68,6 @@ class FakeAuthService implements AuthService {
   FakeAuthService(this._fakeStorage);
 
   @override
-  Dio get _dio => throw UnimplementedError();
-
-  @override
-  SecureStorageService get _storage => _fakeStorage;
-
-  @override
   Future<Map<String, dynamic>> login({
     required String username,
     required String password,
@@ -108,9 +101,6 @@ class FakeAuthService implements AuthService {
 class FakeTripRepository implements TripRepository {
   List<TripModel> mockTrips = [];
   bool shouldFail = false;
-
-  @override
-  Dio get _dio => throw UnimplementedError();
 
   @override
   Future<List<TripModel>> getMyTrips({
@@ -167,9 +157,6 @@ class FakeDriverTripRepository implements DriverTripRepository {
   bool shouldFail = false;
 
   @override
-  Dio get _dio => throw UnimplementedError();
-
-  @override
   Future<DriverTripModel?> getActiveTrip() async {
     if (shouldFail) throw Exception('Failed to get active trip');
     return mockActiveTrip;
@@ -187,6 +174,12 @@ class FakeDriverTripRepository implements DriverTripRepository {
     if (mockActiveTrip != null) {
       mockActiveTrip = mockActiveTrip!.copyWith(status: ExecutionStatus.inProgress);
     }
+    return mockActiveTrip ?? DriverTripModel(executionId: executionId, tripId: 100, tripCode: 'TRIP-100', deliveryDate: '2026-08-15', status: ExecutionStatus.inProgress);
+  }
+
+  @override
+  Future<DriverTripModel> arriveAtStop(int executionId, int stopId) async {
+    if (shouldFail) throw Exception('Failed to arrive at stop');
     return mockActiveTrip ?? DriverTripModel(executionId: executionId, tripId: 100, tripCode: 'TRIP-100', deliveryDate: '2026-08-15', status: ExecutionStatus.inProgress);
   }
 
@@ -229,9 +222,6 @@ class FakeDriverTripRepository implements DriverTripRepository {
 class FakeExceptionRepository implements ExceptionRepository {
   ExceptionListModel? mockResult;
   bool shouldFail = false;
-
-  @override
-  Dio get _dio => throw UnimplementedError();
 
   @override
   Future<ExceptionListModel> getExceptions({

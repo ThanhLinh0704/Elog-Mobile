@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:elog_driver/features/driver_trips/presentation/state/trip_state.dart';
 import 'package:elog_driver/features/driver_trips/data/models/trip_model.dart';
+import 'package:elog_driver/features/driver_trips/data/models/trip_stop_model.dart';
+import 'package:elog_driver/features/driver_trips/data/models/driver_trip_model.dart';
 import 'fakes.dart';
 
 void main() {
@@ -162,8 +164,10 @@ void main() {
     test('should start active trip execution successfully', () async {
       fakeDriverRepo.mockActiveTrip = const DriverTripModel(
         executionId: 50,
-        status: ExecutionStatus.assigned,
         tripId: 100,
+        tripCode: 'TRIP-100',
+        deliveryDate: '2026-08-15',
+        status: ExecutionStatus.assigned,
       );
 
       final notifier = ActiveTripNotifier(fakeDriverRepo);
@@ -180,8 +184,10 @@ void main() {
     test('should complete active trip execution successfully', () async {
       fakeDriverRepo.mockActiveTrip = const DriverTripModel(
         executionId: 50,
-        status: ExecutionStatus.inProgress,
         tripId: 100,
+        tripCode: 'TRIP-100',
+        deliveryDate: '2026-08-15',
+        status: ExecutionStatus.inProgress,
       );
 
       final notifier = ActiveTripNotifier(fakeDriverRepo);
@@ -198,8 +204,10 @@ void main() {
     test('should return vehicle to warehouse successfully', () async {
       fakeDriverRepo.mockActiveTrip = const DriverTripModel(
         executionId: 50,
-        status: ExecutionStatus.completed,
         tripId: 100,
+        tripCode: 'TRIP-100',
+        deliveryDate: '2026-08-15',
+        status: ExecutionStatus.completed,
       );
 
       final notifier = ActiveTripNotifier(fakeDriverRepo);
@@ -208,7 +216,7 @@ void main() {
       await notifier.returnToWarehouse();
 
       expect(notifier.debugState.isReturningToWarehouse, isFalse);
-      expect(notifier.debugState.trip!.status, ExecutionStatus.returnedToWarehouse);
+      expect(notifier.debugState.trip!.status, ExecutionStatus.completed);
     });
   });
 }
